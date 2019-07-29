@@ -8,7 +8,7 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 现代操作系统调度的最小单元是线程，也叫轻量级进程（LightWeight Process），在一个进程里可以创建多个线程，这些线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。处理器在这些线程上高速切换，让使用者感觉到这些线程在同时执行
 
-**2.为什么要使用多线程/线程使用的好处？                                                      
+**2.为什么要使用多线程/线程使用的好处？                                                        
 **（1）更多的处理器核心
 
 （2）更快的响应时间
@@ -21,10 +21,10 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 ![](/assets/1588033-20190428221654326-894392129.png)
 
-**4.启动线程、线程中断？                                                      
+**4.启动线程、线程中断？                                                        
 **start\(\)方法启动线程、interrupt\(\)
 
-**5.如何安全地终止线程？                                                      
+**5.如何安全地终止线程？                                                        
 **在中断线程节中提到的中断状态是线程的一个标识位，而中断操作是一种简便的线程间交互方式，而这种交互方式最适合用来取消或停止任务。除了中断以外，还可以利用一个boolean变量来控制是否需要停止任务并终止该线程。在代码清单1所示的例子中，创建了一个线程CountThread，它不断地进行变量累加，而主线程尝试对其进行中断操作和停止操作
 
 ```
@@ -67,7 +67,7 @@ public class Shutdown {
 }
 ```
 
-**6.创建线程有哪几种方式？                                               
+**6.创建线程有哪几种方式？                                                 
 **创建线程有三种方式：
 
 * * 继承
@@ -76,6 +76,9 @@ public class Shutdown {
     Runnable 接口；
   * 实现
     Callable 接口。
+
+  > 补充：说  一下 runnable 和 callable 有什么区别？
+  > runnable 没有返回值，callable 可以拿到有返回值，callable 可以看作是 runnable 的补充。
 
 **7.多线程环境下，局部变量和全局变量都会共享吗？**
 
@@ -102,7 +105,7 @@ volatile主要是用来在多线程中同步变量。在一般情况下，为了
 
 synchronized关键字是[Java](http://lib.csdn.net/base/17)利用锁的机制自动实现的，一般有同步方法和同步代码块两种使用方式。Java中所有的对象都自动含有单一的锁\(也称为监视器\)，当在对象上调用其任意的synchronized方法时，此对象被加锁\(一个任务可以多次获得对象的锁，计数会递增\)，同时在线程从该方法返回之前，该对象内其他所有要调用类中被标记为synchronized的方法的线程都会被阻塞。当然针对每个类也有一个锁\(作为类的Class对象的一部分\)，所以你懂的^.^。最后需要注意的是synchronized是同步机制中最安全的一种方式，其他的任何方式都是有风险的，当然付出的代价也是最大的
 
-**9.Java线程等待和通知的相关方法?                                      
+**9.Java线程等待和通知的相关方法?                                        
 **![](/assets/import-4-2.png)
 
 **10.什么是连接池、线程池，各自的优点？**
@@ -148,10 +151,10 @@ newFixedThreadPool 与 cacheThreadPool 差不多，也是能 reuse 就用，但�
 
 一般来说，CachedTheadPool 在程序执行过程中通常会创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程，因此它是合理的 Executor 的首选，只有当这种方式会引发问题时（比如需要大量长时间面向连接的线程时），才需要考虑用 FixedThreadPool。（该段话摘自《Thinking in Java》第四版）+
 
-**12.Future、FutureTask、CompletionService、CompletableFuture区别?                                      
+**12.Future、FutureTask、CompletionService、CompletableFuture区别?                                        
 **[https://www.cnblogs.com/dennyzhangdd/p/7010972.html](https://www.cnblogs.com/dennyzhangdd/p/7010972.html)
 
-**13.HashMap实现原理?                               
+**13.HashMap实现原理?                                 
 **[  **hashmap实现原理详解**](https://tuonioooo.gitbooks.io/java-concurrent/content/hashmapshi-xian-yuan-li.html)
 
 **14.为什么要使用ConcurrentHashMap?**
