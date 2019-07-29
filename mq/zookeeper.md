@@ -1,3 +1,15 @@
+#### 参考地址:
+
+Zookeeper源码级应用：
+
+[https://tuonioooo.gitbooks.io/high-concurrent-distributed/content/fen-bu-shi-xi-tong-zookeeper.html](https://tuonioooo.gitbooks.io/high-concurrent-distributed/content/fen-bu-shi-xi-tong-zookeeper.html)
+
+Zookeeper相关面试题：
+
+[https://blog.csdn.net/oldshaui/article/details/84658145](https://blog.csdn.net/oldshaui/article/details/84658145)
+
+[https://www.cnblogs.com/lanqiu5ge/p/9405601.html](https://www.cnblogs.com/lanqiu5ge/p/9405601.html)
+
 **1. zookeeper 是什么？**
 
 zookeeper 是一个分布式的，开放源码的分布式应用程序协调服务，是 google chubby 的开源实现，是 hadoop 和 hbase 的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、域名服务、分布式同步、组服务等。
