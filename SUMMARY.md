@@ -18,4 +18,5 @@
     * [MyBatis](mybatis.md)
   * [【MQ】](mq.md)
     * [RabbitMQ](mq/rabbitmq.md)
+    * [Kafka](mq/kafka.md)
 
