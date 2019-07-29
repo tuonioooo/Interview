@@ -117,11 +117,11 @@ spring 有五大隔离级别，默认值为 ISOLATION\_DEFAULT（使用数据库
 * 模型和视图
   ModelAndView。
 
-**102. @RequestMapping 的作用是什么？**
+**13. @RequestMapping 的作用是什么？**
 
 将 http 请求映射到相应的类/方法上。
 
-**103. @Autowired 的作用是什么？**
+**15. @Autowired 的作用是什么？**
 
 @Autowired 它可以对类成员变量、方法和构造函数进行标注，完成自动装配的工作，通过使用@Autowried 来消除 get、set 方法。
 
