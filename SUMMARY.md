@@ -16,4 +16,6 @@
     * [SpringBoot/Spring Cloud](springbootspring-cloud.md)
     * [Hibernate](hibernate.md)
     * [MyBatis](mybatis.md)
+  * [【MQ】](mq.md)
+    * [RabbitMQ](mq/rabbitmq.md)
 
