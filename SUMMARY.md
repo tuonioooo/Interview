@@ -24,4 +24,6 @@
   * [【Java8的新特性】](java8de-xin-te-xing-3011.md)
   * [【DB】](db.md)
     * [Mysql](db/mysql.md)
+  * [【缓存】](3010-huan-cun-3011.md)
+    * [Redis](3010-huan-cun-3011/redis.md)
 
