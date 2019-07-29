@@ -8,7 +8,7 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 现代操作系统调度的最小单元是线程，也叫轻量级进程（LightWeight Process），在一个进程里可以创建多个线程，这些线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。处理器在这些线程上高速切换，让使用者感觉到这些线程在同时执行
 
-**2.为什么要使用多线程/线程使用的好处？                                
+**2.为什么要使用多线程/线程使用的好处？                                  
 **（1）更多的处理器核心
 
 （2）更快的响应时间
@@ -19,10 +19,10 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 初始状态、运行状态、阻塞状态、等待状态、超时等待状态、终止状态** **
 
-**4.启动线程、线程中断？                                
+**4.启动线程、线程中断？                                  
 **start\(\)方法启动线程、interrupt\(\)
 
-**5.如何安全地终止线程？                                
+**5.如何安全地终止线程？                                  
 **在中断线程节中提到的中断状态是线程的一个标识位，而中断操作是一种简便的线程间交互方式，而这种交互方式最适合用来取消或停止任务。除了中断以外，还可以利用一个boolean变量来控制是否需要停止任务并终止该线程。在代码清单1所示的例子中，创建了一个线程CountThread，它不断地进行变量累加，而主线程尝试对其进行中断操作和停止操作
 
 ```
@@ -65,7 +65,7 @@ public class Shutdown {
 }
 ```
 
-**6.多线程的实现方法？                                
+**6.多线程的实现方法？                                  
 **继承 Thread 类、实现 Runnable 接口，在程序开发中只要是多线程，肯定永远以实现 Runnable 接口为主，因为实现 Runnable 接口相比继承 Thread 类有如下优势：
 
 * 可以避免由于 Java 的单继承特性而带来的局限；
@@ -97,7 +97,7 @@ volatile主要是用来在多线程中同步变量。在一般情况下，为了
 
 synchronized关键字是[Java](http://lib.csdn.net/base/17)利用锁的机制自动实现的，一般有同步方法和同步代码块两种使用方式。Java中所有的对象都自动含有单一的锁\(也称为监视器\)，当在对象上调用其任意的synchronized方法时，此对象被加锁\(一个任务可以多次获得对象的锁，计数会递增\)，同时在线程从该方法返回之前，该对象内其他所有要调用类中被标记为synchronized的方法的线程都会被阻塞。当然针对每个类也有一个锁\(作为类的Class对象的一部分\)，所以你懂的^.^。最后需要注意的是synchronized是同步机制中最安全的一种方式，其他的任何方式都是有风险的，当然付出的代价也是最大的
 
-**9.Java线程等待和通知的相关方法?                
+**9.Java线程等待和通知的相关方法?                  
 **![](/assets/import-4-2.png)
 
 **10.什么是连接池、线程池，各自的优点？**
@@ -143,10 +143,10 @@ newFixedThreadPool 与 cacheThreadPool 差不多，也是能 reuse 就用，但�
 
 一般来说，CachedTheadPool 在程序执行过程中通常会创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程，因此它是合理的 Executor 的首选，只有当这种方式会引发问题时（比如需要大量长时间面向连接的线程时），才需要考虑用 FixedThreadPool。（该段话摘自《Thinking in Java》第四版）+
 
-**12.Future、FutureTask、CompletionService、CompletableFuture区别?                
+**12.Future、FutureTask、CompletionService、CompletableFuture区别?                  
 **[https://www.cnblogs.com/dennyzhangdd/p/7010972.html](https://www.cnblogs.com/dennyzhangdd/p/7010972.html)
 
-**13.HashMap实现原理?         
+**13.HashMap实现原理?           
 **[  **hashmap实现原理详解**](https://tuonioooo.gitbooks.io/java-concurrent/content/hashmapshi-xian-yuan-li.html)
 
 **14.为什么要使用ConcurrentHashMap?**
@@ -169,37 +169,37 @@ Java提供了很丰富的API但没有为停止线程提供API。JDK 1.0本来有
 
 当所有线程阻塞，或者由于需要的资源无效而不能处理，不存在非阻塞线程使资源可用。JavaAPI中线程活锁可能发生在以下情形：
 
- 1，当所有线程在程序中执行Object.wait\(0\)，参数为0的wait方法。程序将发生活锁直到在相应的对象上有线程调用Object.notify\(\)或者Object.notifyAll\(\)。
+1，当所有线程在程序中执行Object.wait\(0\)，参数为0的wait方法。程序将发生活锁直到在相应的对象上有线程调用Object.notify\(\)或者Object.notifyAll\(\)。
 
- 2，当所有线程卡在无限循环中。
+2，当所有线程卡在无限循环中。
 
 **19.什么是Java Timer类？如何创建一个有特定时间间隔的任务？**
 
 java.util.Timer是一个工具类，可以用于安排一个线程在未来的某个特定时间执行。Timer类可以用安排一次性任务或者周期任务。
 
- java.util.TimerTask是一个实现了Runnable接口的抽象类，我们需要去继承这个类来创建我们自己的定时任务并使用Timer去安排它的执行
+java.util.TimerTask是一个实现了Runnable接口的抽象类，我们需要去继承这个类来创建我们自己的定时任务并使用Timer去安排它的执行
 
 **20.Java中的同步集合与并发集合有什么区别？**
 
 同步集合与并发集合都为多线程和并发提供了合适的线程安全的集合，不过并发集合的可扩展性更高。
 
- 在Java1.5之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。
+在Java1.5之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。
 
- Java5介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和 内部分区等现代技术提高了可扩展性。
+Java5介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和 内部分区等现代技术提高了可扩展性。
 
 **21.同步方法和同步块，哪个是更好的选择？**
 
 同步块是更好的选择，因为它不会锁住整个对象（当然你也可以让它锁住整个对象）。同步方法会锁住整个对象，哪怕这个类中有多个不相关联的同步块，这通常会导致他们停止执行并需要等待获得这个对象上的锁。
 
+**22.Java中invokeAndWait 和 invokeLater有什么区别？**
 
+这两个方法是Swing API 提供给Java开发者用来从当前线程而不是事件派发线程更新GUI组件用的。InvokeAndWait\(\)同步更新GUI组件，比如一个进度条，一旦进度更新了，进度条也要做出相应改变。如果进度被多个线程跟踪，那么就调用invokeAndWait\(\)方法请求事件派发线程对组件进行相应更新。而invokeLater\(\)方法是异步调用更新组件的。
 
+**23.多线程中的忙循环是什么?**
 
+忙循环就是程序员用循环让一个线程等待，不像传统方法wait\(\), sleep\(\) 或 yield\(\) 它们都放弃了CPU控制，而忙循环不会放弃CPU，它就是在运行一个空循环。这么做的目的是为了保留CPU缓存。
 
-
-
-
-
-
+ 在多核系统中，一个等待线程醒来的时候可能会在另一个内核运行，这样会重建缓存。为了避免重建缓存和减少等待重建的时间就可以使用它了。
 
 
 
