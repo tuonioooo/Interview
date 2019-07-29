@@ -4,16 +4,16 @@
 
 **125. MyBatis 中 \#{}和 ${}的区别是什么？**
 
-　　\#{}是预编译处理，${}是字符替换。在使用 \#{}时，MyBatis 会将 SQL 中的\#{}替换成“?”，配合 PreparedStatement 的 set 方法赋值，这样可以有效的防止 SQL 注入，保证程序的运行安全。
+\#{}是预编译处理，${}是字符替换。在使用 \#{}时，MyBatis 会将 SQL 中的\#{}替换成“?”，配合 PreparedStatement 的 set 方法赋值，这样可以有效的防止 SQL 注入，保证程序的运行安全。
 
 **126. MyBatis 有几种分页方式？**
 
-　　分页方式：逻辑分页和物理分页。
+分页方式：逻辑分页和物理分页。
 
 * **逻辑分页：**
-   使用 MyBatis 自带的 RowBounds 进行分页，它是一次性查询很多数据，然后在数据中再进行检索。
+   使用 MyBatis 自带的 RowBounds 进行分页，它是一次性查询很多数据，然后在数据中再进行检索。
 * **物理分页：**
-   自己手写 SQL 分页或使用分页插件 PageHelper，去数据库查询指定条数的分页数据的形式。
+   自己手写 SQL 分页或使用分页插件 PageHelper，去数据库查询指定条数的分页数据的形式。
 
 **127. RowBounds 是一次性查询全部结果吗？为什么？**
 
@@ -56,7 +56,7 @@ MyBatis 支持延迟加载，设置 lazyLoadingEnabled=true 即可。
 
 **132. MyBatis 有哪些执行器（Executor）？**
 
-　　MyBatis 有三种基本的Executor执行器：
+MyBatis 有三种基本的Executor执行器：
 
 * SimpleExecutor：每执行一次 update 或 select 就开启一个 Statement 对象，用完立刻关闭 Statement 对象；
 * ReuseExecutor：执行 update 或 select，以 SQL 作为 key 查找 Statement 对象，存在就使用，不存在就创建，用完后不关闭 Statement 对象，而是放置于 Map 内供下一次使用。简言之，就是重复使用 Statement 对象；
@@ -64,7 +64,7 @@ MyBatis 支持延迟加载，设置 lazyLoadingEnabled=true 即可。
 
 **133. MyBatis 分页插件的实现原理是什么？**
 
-　　分页插件的基本原理是使用MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 SQL，然后重写 SQL，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。
+分页插件的基本原理是使用MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 SQL，然后重写 SQL，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。
 
 **134. MyBatis 如何编写一个自定义插件？**
 
@@ -82,16 +82,10 @@ MyBatis 自定义插件针对 MyBatis 四大对象（Executor、StatementHandler
 MyBatis 插件要实现 Interceptor 接口，接口包含的方法，如下：
 
 ```
-public
-interface
- Interceptor {   
-   Object intercept(Invocation invocation) 
-throws
- Throwable;       
+public interface Interceptor {   
+   Object intercept(Invocation invocation) throws Throwable;       
    Object plugin(Object target);    
-   
-void
- setProperties(Properties properties);
+   void setProperties(Properties properties);
 }
 ```
 
@@ -103,70 +97,23 @@ void
 
 官方插件实现：
 
-
-
-[![](https://common.cnblogs.com/images/copycode.gif "复制代码")](javascript:void%280%29;)
-
 ```
-@Intercepts({@Signature(type = Executor. 
-class
-, method = "query"
-,
-        args 
-= {MappedStatement. 
-class
-, Object. 
-class
-, RowBounds. 
-class
-, ResultHandler. 
-class
-})})
-public
-class
- TestInterceptor 
-implements
- Interceptor {
-   
-public
- Object intercept(Invocation invocation) 
-throws
- Throwable {
-     Object target 
-= invocation. getTarget(); 
-//
-被代理对象
-
-     Method method = invocation. getMethod(); 
-//
-代理方法
-
-     Object[] args = invocation. getArgs(); 
-//
-方法参数
-     
-//
- do something . . . . . .  方法拦截前执行代码块
-
-     Object result =
- invocation. proceed();
-     
-//
- do something . . . . . . . 方法拦截后执行代码块
-return
- result;
+@Intercepts({@Signature(type = Executor. class, method = "query",
+        args = {MappedStatement. class, Object. class, RowBounds. class, ResultHandler. class})})public class TestInterceptor implements Interceptor {
+   public Object intercept(Invocation invocation) throws Throwable {
+     Object target = invocation. getTarget(); //被代理对象
+     Method method = invocation. getMethod(); //代理方法
+     Object[] args = invocation. getArgs(); //方法参数
+     // do something . . . . . .  方法拦截前执行代码块
+     Object result = invocation. proceed();
+     // do something . . . . . . . 方法拦截后执行代码块
+     return result;
    }
-   
-public
- Object plugin(Object target) {
-     
-return
- Plugin. wrap(target, 
-this
-);
+   public Object plugin(Object target) {
+     return Plugin. wrap(target, this);
    }
 }
 ```
 
-[![](https://common.cnblogs.com/images/copycode.gif "复制代码")](javascript:void%280%29;)
+
 
