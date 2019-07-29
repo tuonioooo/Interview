@@ -4,6 +4,8 @@
 
 [Spring MVC源码解读](https://tuonioooo.gitbooks.io/application-framework/content/springyuan-ma-jie-du-pian/springmvcyuan-ma-jie-du.html)
 
+相关面试总结：[https://www.cnblogs.com/tangjian07/p/10802148.html](https://www.cnblogs.com/tangjian07/p/10802148.html)
+
 1**. 为什么要使用 spring？**
 
 * spring 提供了 IOC 技术，spring 容器会帮你管理依赖的对象，从而不需要自己创建和管理依赖对象了，更轻松的实现了程序的解耦。
