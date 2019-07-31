@@ -7,25 +7,25 @@
 
 **2. 什么是 ORM 框架？**
 
-　　ORM（Object Relation Mapping）对象关系映射，是把数据库中的关系数据映射成为程序中的对象。
+ORM（Object Relation Mapping）对象关系映射，是把数据库中的关系数据映射成为程序中的对象。
 
-　　使用ORM 的优点：提高了开发效率降低了开发成本、开发更简单更对象化、可移植更强。
+使用ORM 的优点：提高了开发效率降低了开发成本、开发更简单更对象化、可移植更强。
 
 **3. hibernate 中如何在控制台查看打印的 SQL 语句？**
 
-　　在Config 里面把 hibernate. show\_SQL 设置为 true 就可以。但不建议开启，开启之后会降低程序的运行效率。
+在Config 里面把 hibernate. show\_SQL 设置为 true 就可以。但不建议开启，开启之后会降低程序的运行效率。
 
 **4. hibernate 有几种查询方式？**
 
-　　三种：hql、原生 SQL、条件查询 Criteria。
+三种：hql、原生 SQL、条件查询 Criteria。
 
 **5. hibernate 实体类可以被定义为 final 吗？**
 
-　　实体类可以定义为final 类，但这样的话就不能使用 hibernate 代理模式下的延迟关联提供性能了，所以不建议定义实体类为 final。
+实体类可以定义为final 类，但这样的话就不能使用 hibernate 代理模式下的延迟关联提供性能了，所以不建议定义实体类为 final。
 
 **6. 在 hibernate 中使用 Integer 和 int 做映射有什么区别？**
 
-　　Integer 类型为对象，它的值允许为 null，而 int 属于基础数据类型，值不能为 null。
+Integer 类型为对象，它的值允许为 null，而 int 属于基础数据类型，值不能为 null。
 
 **7. hibernate 是如何工作的？**
 
@@ -72,5 +72,20 @@ hibernate 常用的缓存有一级缓存和二级缓存：
 
 **12. hibernate 实体类必须要有无参构造函数吗？为什么？**
 
-　　hibernate 中每个实体类必须提供一个无参构造函数，因为 hibernate 框架要使用 reflection api，通过调用 ClassnewInstance\(\) 来创建实体类的实例，如果没有无参的构造函数就会抛出异常。
+hibernate 中每个实体类必须提供一个无参构造函数，因为 hibernate 框架要使用 reflection api，通过调用 ClassnewInstance\(\) 来创建实体类的实例，如果没有无参的构造函数就会抛出异常。
+
+**13.hibernate控制反转的作用？**
+
+要的。在一对多的时候
+
+在 一 的这一方要控制，就是为了不让hibernate重新执行sql语句、
+
+  
+
+
+比如 一个部门（dept）对应多个员工（emloyees）在你配置dept的配置文件时要在关系属性的配置里面加 inverse
+
+=true
+
+.
 
