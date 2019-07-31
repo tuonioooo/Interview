@@ -74,7 +74,7 @@ spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发
 
 **10.springboot devtools热部署的原理**
 
-spring-boot-devtools其深层原理是使用了两个ClassLoader，一个加载不会改变的类（jar包），另一个加载会改变的类。称为restart ClassLoader，当代码块修改时，新的restart ClassLoader类将代替旧的。
+spring-boot-devtools其深层原理是使用了两个ClassLoader，一个加载不会改变的类（jar包），另一个加载会改变的类。称为restart ClassLoader，当代码块修改时，新的restartClassLoader类将代替旧的。
 
-引用原文：https://www.jianshu.com/p/c21f4ad3ab5a
+引用原文：[https://www.jianshu.com/p/c21f4ad3ab5a](https://www.jianshu.com/p/c21f4ad3ab5a)
 
