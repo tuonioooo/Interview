@@ -148,16 +148,11 @@ JDK 自带了很多监控工具，都位于 JDK 的 bin 目录下，其中最常
 * -XX:+UseConcMarkSweepGC：指定使用 CMS + Serial Old 垃圾回收器组合；
 * -XX:+PrintGC：开启打印 gc 信息；
 * -XX:+PrintGCDetails：打印 gc 详细信息。
+* -Xss2m：为jvm启动的每个线程分配（栈帧）的内存大小，防止Stack overflow
 
 **16.Java程序Stack overflow的解决办法**
 
 有的时候当我们的程序，递归调用太深的时候，可能我们的栈就溢出了。
-
-  
-
-
-  
-
 
 这个问题很好解决，只要加上JVM参数-Xss2m，基本就能解决这个问题。
 
