@@ -72,5 +72,9 @@ spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发
 * Hystrix：提供线程池，不同的服务走不同的线程池，实现了不同服务调用的隔离，避免了服务雪崩的问题。
 * Zuul：网关管理，由 Zuul 网关转发请求给对应的服务。
 
+**10.springboot devtools热部署的原理**
 
+spring-boot-devtools其深层原理是使用了两个ClassLoader，一个加载不会改变的类（jar包），另一个加载会改变的类。称为restart ClassLoader，当代码块修改时，新的restart ClassLoader类将代替旧的。
+
+引用原文：https://www.jianshu.com/p/c21f4ad3ab5a
 
