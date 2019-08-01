@@ -76,13 +76,27 @@ Apache称Apollo为最快、最强健的STOMP服务器。支持STOMP、AMQP、MQT
 
 Kafka是LinkedIn于2010年12月开发并开源的一个分布式流平台，现在是Apache的顶级项目，是一个高性能跨语言分布式Publish/Subscribe消息队列系统，以Pull的形式消费消息。具有以下特性：快速持久化，可以在O\(1\)的系统开销下进行消息持久化；高吞吐，在一台普通的服务器上既可以达到10W/s的吞吐速率；完全的分布式系统，Broker、Producer、Consumer都原生自动支持分布式，自动实现复杂均衡。因为设计之初是作为日志流平台和运营消息管道平台，所以实现了消息顺序和海量堆积。
 
-
-
 Kafka自身服务与消息的生产和消费都依赖与Zookeeper，使用Scala语言开发。因为其消息的消费使用客户端Pull方式，消息可以被多个客户端消费，理论上消息会重复，但是不会丢失（除非消息过期）。因此比较常用的场景是作为日志传输的消息平台。
 
+# RocketMQ {#6-rocketmq}
+
+![](/assets/rmq-logo.png)
+
+> Apache RocketMQ™ is an open source distributed messaging and streaming data platform.
+
+RocketMQ是阿里开源的消息中间件，目前在Apache孵化，使用纯Java开发，具有高吞吐量、高可用性、适合大规模分布式系统应用的特点。RocketMQ思路起源于Kafka，但并不是简单的复制，它对消息的可靠传输及事务性做了优化，目前在阿里集团被广泛应用于交易、充值、流计算、消息推送、日志流式处理、binglog分发等场景，支撑了阿里多次双十一活动。
 
 
 
+因为是阿里内部从实践到产品的产物，因此里面很多接口、api并不是很普遍适用。其可靠性毋庸置疑，而且与Kafka一脉相承（甚至更优），性能强劲，支持海量堆积。不过据说，没有在mq核心上实现JMS，但是也无伤大雅。
 
+--------------------- 
 
+作者：看山 
+
+来源：CSDN 
+
+原文：https://blog.csdn.net/liuxinghao/article/details/60875715 
+
+版权声明：本文为博主原创文章，转载请附上博文链接！
 
