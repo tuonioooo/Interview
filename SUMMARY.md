@@ -20,6 +20,7 @@
     * [RabbitMQ](mq/rabbitmq.md)
     * [Kafka](mq/kafka.md)
     * [Zookeeper](mq/zookeeper.md)
+    * [JMS、ActiveMQ和RabbitMQ的区别与联系](mq/jmsactivemqhe-rabbitmq-de-qu-bie-yu-lian-xi.md)
   * [【dubbo】](dubbo.md)
   * [【Java8的新特性】](java8de-xin-te-xing-3011.md)
   * [【DB】](db.md)
