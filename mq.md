@@ -52,21 +52,21 @@ RabbitMQ是基于Erlang语言编写的开源消息队列，通过Erlang的Actor�
 
 ![](/assets/activemq_logo_white_vertical.png)
 
-> Apache ActiveMQ ™ is the most popular and powerful open source messaging and Integration Patterns server. 
+> Apache ActiveMQ ™ is the most popular and powerful open source messaging and Integration Patterns server.
 >
 > Apache ActiveMQ is fast, supports many Cross Language Clients and Protocols, comes with easy to use Enterprise Integration Patterns and many advanced features while fully supporting JMS 1.1 and J2EE 1.4. Apache ActiveMQ is released under the Apache 2.0 License.
 
 ActiveMQ介于ZeroMQ和RabbitMQ之间。类似于ZeroMQ，它可以部署于代理模式和P2P模式。类似于RabbitMQ，它易于实现高级场景，而且只需付出低消耗。被誉为消息中间件的“瑞士军刀”。
 
-
-
 支持OpenWire、Stomp、AMQP v1.0、MQTT v3.1、REST、Ajax、Webservice等多种协议；完全支持JMS1.1和J2EE 1.4规范（事务、持久化、XA消息）；支持持久化到数据库。但是ActiveMQ不够轻巧，而且对于队列较多的情况支持不好，据说还有丢消息的情况。
-
-
 
 目前已经有了其下一代消息产品Apollo。
 
+# Apollo {#4-apollo}
 
+> ActiveMQ Apollo is a faster, more reliable, easier to maintain messaging broker built from the foundations of the original ActiveMQ. It accomplishes this using a radically different threading and message dispatching architecture. Like ActiveMQ, Apollo is a multi-protocol broker and supports STOMP, AMQP, MQTT, Openwire, SSL, and WebSockets.
+
+Apache称Apollo为最快、最强健的STOMP服务器。支持STOMP、AMQP、MQTT、OpenWire协议，支持Topic、Queue、持久订阅等消费形式，支持对消息的多种处理，支持安全性处理，支持REST管理API。。。功能列表很长，最大的弊病就是目前市场接收度不够，所以使用的并不广泛。
 
 
 
