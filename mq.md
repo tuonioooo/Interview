@@ -30,27 +30,43 @@ ZeroMQ号称是“史上最快的消息队列”，基于c语言开发的，可�
 
 ![](/assets/rabbitmq_logo_strap.webp.jpg)
 
-> 官方定义： 
+> 官方定义：
 >
-> - Robust messaging for applications 
+> * Robust messaging for applications
 >
-> - Easy to use 
+> * Easy to use
 >
-> - Runs on all major operating systems 
+> * Runs on all major operating systems
 >
-> - Supports a huge number of developer platforms 
+> * Supports a huge number of developer platforms
 >
-> - Open source and commercially supported
+> * Open source and commercially supported
 
 RabbitMQ是基于Erlang语言编写的开源消息队列，通过Erlang的Actor模型实现了数据的稳定可靠传输。本身是实现AMQP的消息队列，因此官方推荐，如果仅仅是使用RabbitMQ的话，建议使用AMQP 0-9-1的协议。不过，因为其可扩展性，可以通过插件的形式使用STOMP、XMPP、AMQP 1.0，还可以通过插件使用HTTP这种非消息的传输协议。所以，RabbitMQ可以说是适应性非常强的一个消息队列中间件了。
 
-
-
 当然，不仅是协议支持的多，还因为它实现了代理\(Broker\)架构，意味着消息在发送到客户端之前可以在中央节点上排队。此特性使得RabbitMQ易于使用和部署，适宜于很多场景如路由、负载均衡或消息持久化等，用消息队列只需几行代码即可搞定。但是，这使得它的可扩展性差，速度较慢，因为中央节点增加了延迟，消息封装后也比较大，如需配置RabbitMQ则需要在目标机器上安装Erlang环境。
 
-
-
 总的来说，RabbitMQ在数据一致性、稳定性和可靠性方面比较优秀，而且直接或间接的支持多种协议，对多种语言支持良好。但是其性能和吞吐量差强人意，由于Erlang语言本身的限制，二次开发成本较高。
+
+# ActiveMQ {#3-activemq}
+
+![](/assets/activemq_logo_white_vertical.png)
+
+> Apache ActiveMQ ™ is the most popular and powerful open source messaging and Integration Patterns server. 
+>
+> Apache ActiveMQ is fast, supports many Cross Language Clients and Protocols, comes with easy to use Enterprise Integration Patterns and many advanced features while fully supporting JMS 1.1 and J2EE 1.4. Apache ActiveMQ is released under the Apache 2.0 License.
+
+ActiveMQ介于ZeroMQ和RabbitMQ之间。类似于ZeroMQ，它可以部署于代理模式和P2P模式。类似于RabbitMQ，它易于实现高级场景，而且只需付出低消耗。被誉为消息中间件的“瑞士军刀”。
+
+
+
+支持OpenWire、Stomp、AMQP v1.0、MQTT v3.1、REST、Ajax、Webservice等多种协议；完全支持JMS1.1和J2EE 1.4规范（事务、持久化、XA消息）；支持持久化到数据库。但是ActiveMQ不够轻巧，而且对于队列较多的情况支持不好，据说还有丢消息的情况。
+
+
+
+目前已经有了其下一代消息产品Apollo。
+
+
 
 
 
