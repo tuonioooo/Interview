@@ -68,7 +68,9 @@ ActiveMQ介于ZeroMQ和RabbitMQ之间。类似于ZeroMQ，它可以部署于代�
 
 Apache称Apollo为最快、最强健的STOMP服务器。支持STOMP、AMQP、MQTT、OpenWire协议，支持Topic、Queue、持久订阅等消费形式，支持对消息的多种处理，支持安全性处理，支持REST管理API。。。功能列表很长，最大的弊病就是目前市场接收度不够，所以使用的并不广泛。
 
+# Kafka {#5-kafka}
 
+![](/assets/logo-0001.png)
 
 
 
