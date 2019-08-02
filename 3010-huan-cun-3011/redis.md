@@ -60,7 +60,7 @@ Redis 使用场景：
 
 **6. Redis 支持的数据类型有哪些？**
 
-Redis 支持的数据类型：string（字符串）、list（列表）、hash（散列表）、set（集合）、zset（有序集合）。
+Redis 支持的数据类型：string（字符串）、list（列表）、hash（散列表）、set（集合）、\(Sorted set\)zset（有序集合）。
 
 **7. Redis 支持的 Java 客户端都有哪些？**
 
