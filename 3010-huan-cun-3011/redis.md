@@ -256,6 +256,10 @@ EXPIRE 和 PERSIST 命令
 
 缺点**：**在消费者下线的情况下，生产的消息会丢失，得使用专业的消息队列如 rabbitmq 等。
 
+**33.redis实现简单延时队列**
+
+https://my.oschina.net/u/3266761/blog/1930360
+
 
 
 
