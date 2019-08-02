@@ -343,9 +343,96 @@ Redis为单进程单线程模式，采用队列模式将并发访问变为串行
 
 ![](/assets/4zb62cc80q.jpeg)
 
-
-
 如果是单机，可以用ｓｙｎｃｈｒｏｎｉｚｅｄ或者ｌｏｃｋ来处理，如果是分布式环境可以用分布式锁就可以了（分布式锁，可以用ｍｅｍｃａｃｈｅ的ａｄｄ，　ｒｅｄｉｓ的ｓｅｔｎｘ，　ｚｏｏｋｅｅｐｅｒ的添加节点操作）。
+
+ｍｅｍｃａｃｈｅ的伪代码实现：
+
+```
+if (memcache.get(key) == null) {  
+    // 3 min timeout to avoid mutex holder crash  
+    if (memcache.add(key_mutex, 3 * 60 * 1000) == true) {  
+        value = db.get(key);  
+        memcache.set(key, value);  
+        memcache.delete(key_mutex);  
+    } else {  
+        sleep(50);  
+        retry();  
+    }  
+}  
+
+```
+
+ｒｅｄｉｓ的代码实现：
+
+```
+String get(String key) {  
+   String value = redis.get(key);  
+   if (value  == null) {  
+    if (redis.setnx(key_mutex, "1")) {  
+        // 3 min timeout to avoid mutex holder crash  
+        redis.expire(key_mutex, 3 * 60)  
+        value = db.get(key);  
+        redis.set(key, value);  
+        redis.delete(key_mutex);  
+    } else {  
+        //其他线程休息50毫秒后重试  
+        Thread.sleep(50);  
+        get(key);  
+    }  
+  }  
+}  
+
+```
+
+（2）.＂提前＂使用互斥锁（ｍｕｔｅｘ　ｋｅｙ）：
+
+在ｖａｌｕｅ内部设置１个超时值（ｔｉｍｅｏｕｔ１），　ｔｉｍｅｏｕｔ１比实际的ｍｅｍｃａｃｈｅ　ｔｉｍｅｏｕｔ（ｔｉｍｅｏｕｔ２）小。当从ｃａｃｈｅ读取到ｔｉｍｅｏｕｔ１发现它已经过期时候，马上延长ｔｉｍｅｏｕｔ１并重新设置到ｃａｃｈｅ。然后再从数据库加载数据并设置到ｃａｃｈｅ中。伪代码如下：
+
+```
+v = memcache.get(key);  
+if (v == null) {  
+    if (memcache.add(key_mutex, 3 * 60 * 1000) == true) {  
+        value = db.get(key);  
+        memcache.set(key, value);  
+        memcache.delete(key_mutex);  
+    } else {  
+        sleep(50);  
+        retry();  
+    }  
+} else {  
+    if (v.timeout <= now()) {  
+        if (memcache.add(key_mutex, 3 * 60 * 1000) == true) {  
+            // extend the timeout for other threads  
+            v.timeout += 3 * 60 * 1000;  
+            memcache.set(key, v, KEY_TIMEOUT * 2);  
+  
+            // load the latest value from db  
+            v = db.get(key);  
+            v.timeout = KEY_TIMEOUT;  
+            memcache.set(key, value, KEY_TIMEOUT * 2);  
+            memcache.delete(key_mutex);  
+        } else {  
+            sleep(50);  
+            retry();  
+        }  
+    }  
+}  
+
+```
+
+3. "永远不过期"：
+
+ 这里的“永远不过期”包含两层意思：
+
+
+
+    \(1\) 从redis上看，确实没有设置过期时间，这就保证了，不会出现热点key过期问题，也就是“物理”不过期。
+
+
+
+    \(2\) 从功能上看，如果不过期，那不就成静态的了吗？所以我们把过期时间存在key对应的value里，如果发现要过期了，通过一个后台的异步线程进行缓存的构建，也就是“逻辑”过期
+
+
 
 
 
