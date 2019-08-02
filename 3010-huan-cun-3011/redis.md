@@ -1,6 +1,4 @@
-```
 参考地址：
-```
 
 Redis详细教程：[https://tuonioooo.gitbooks.io/high-concurrent-cache/content/redis.html](https://tuonioooo.gitbooks.io/high-concurrent-cache/content/redis.html)
 
@@ -457,18 +455,14 @@ String get(final String key) {
 
 可以做资源的隔离保护主线程池，如果把这个应用到缓存的构建也未尝不可
 
-
-
 方案对比：![](/assets/13d90d04-3547-3f2f-80ea-b3ce8ecb06db.png)
 
 | 解决方案 | 优点 | 缺点 |
 | :--- | :--- | :--- |
-| 简单分布式锁 |  1. 思路简单2. 保证一致性 | 1. 代码复杂度增大2. 存在死锁的风险3. 存在线程池阻塞的风险 |
+| 简单分布式锁 | 1. 思路简单2. 保证一致性 | 1. 代码复杂度增大2. 存在死锁的风险3. 存在线程池阻塞的风险 |
 | 加另外一个过期时间 | 保证一致性 | 同上 |
 | 不过期 | 异步构建缓存，不会阻塞线程池 | 1. 不保证一致性。2. 代码复杂度增大\(每个value都要维护一个timekey\)。3. 占用一定的内存空间\(每个value都要维护一个timekey\)。 |
 | 资源隔离组件hystrix | 1. hystrix技术成熟，有效保证后端。2. hystrix监控强大。 | 部分访问存在降级策略。 |
-
-
 
 **41.是否使用过Redis集群，集群的原理是什么？**
 
