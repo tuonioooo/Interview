@@ -410,21 +410,21 @@ String get(final String key) {
 
 Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为master，继续提供服务。 Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster进行分片存储。
 
+**42.主从复制的原理**
 
+无论是初次连接还是重新连接， 当建立一个从服务器时， 从服务器都将向主服务器发送一个 [SYNC](http://redis.readthedocs.org/cn/latest/server/sync.html#sync) 命令。
 
+接到 [SYNC](http://redis.readthedocs.org/cn/latest/server/sync.html#sync) 命令的主服务器将开始执行 [BGSAVE](http://redis.readthedocs.org/cn/latest/server/bgsave.html#bgsave) ， 并在保存操作执行期间， 将所有新执行的写入命令都保存到一个缓冲区里面。
 
+当 [BGSAVE](http://redis.readthedocs.org/cn/latest/server/bgsave.html#bgsave) 执行完毕后， 主服务器将执行保存操作所得的 .rdb 文件发送给从服务器， 从服务器接收这个 .rdb 文件， 并将文件中的数据载入到内存中。
 
+之后主服务器会以 Redis 命令协议的格式， 将写命令缓冲区中积累的所有内容都发送给从服务器。
 
+你可以通过 telnet 命令来亲自验证这个同步过程： 首先连上一个正在处理命令请求的 Redis 服务器， 然后向它发送 [SYNC](http://redis.readthedocs.org/cn/latest/server/sync.html#sync) 命令， 过一阵子， 你将看到 telnet 会话（session）接收到服务器发来的大段数据（.rdb 文件）， 之后还会看到， 所有在服务器执行过的写命令， 都会重新发送到 telnet 会话来。
 
+即使有多个从服务器同时向主服务器发送 [SYNC](http://redis.readthedocs.org/cn/latest/server/sync.html#sync) ， 主服务器也只需执行一次 [BGSAVE](http://redis.readthedocs.org/cn/latest/server/bgsave.html#bgsave) 命令， 就可以处理所有这些从服务器的同步请求。
 
-
-
-
-
-
-
-
-
+从服务器可以在主从服务器之间的连接断开时进行自动重连， 在 Redis 2.8 版本之前， 断线之后重连的从服务器总要执行一次完整重同步（full resynchronization）操作， 但是从 Redis 2.8 版本开始， 从服务器可以根据主服务器的情况来选择执行完整重同步还是部分重同步（partial resynchronization）。
 
 
 
