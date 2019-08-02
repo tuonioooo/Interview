@@ -8,8 +8,6 @@ Redis相关面试题：
 
 [https://segmentfault.com/a/1190000014488045](https://segmentfault.com/a/1190000014488045)
 
-[https://msd.misuland.com/pd/3065794831805580868](https://msd.misuland.com/pd/3065794831805580868)
-
 **1**.**Redis 是什么？都有哪些使用场景？**
 
 Redis 是一个使用 C 语言开发的高速缓存数据库。
@@ -261,10 +259,6 @@ EXPIRE 和 PERSIST 命令
 [https://my.oschina.net/u/3266761/blog/1930360](https://my.oschina.net/u/3266761/blog/1930360)
 
 **34**.**使用 redis 如何设计分布式锁？说一下实现思路？使用 zk 可以吗？如何实现？这两种有什么区别？**
-
-
-
-
 
 
 
