@@ -295,15 +295,7 @@ Redis为单进程单线程模式，采用队列模式将并发访问变为串行
 
 **哨兵功能自动恢复**
 
-  通过sentinel模式启动redis后，自动监控master/slave的运行状态, 已经被集成在redis2.4+的版本中如果Master异常，则会进行Master-Slave切换，将其中一个Slave作为Master，将之前的Master作为Slave
+通过sentinel模式启动redis后，自动监控master/slave的运行状态, 已经被集成在redis2.4+的版本中如果Master异常，则会进行Master-Slave切换，将其中一个Slave作为Master，将之前的Master作为Slave
 
-**基本原理是**
-
-：心跳机制+投票裁决
-
-
-
-
-
-
+**基本原理是**：心跳机制+投票裁决
 
