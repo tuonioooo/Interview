@@ -423,13 +423,42 @@ if (v == null) {
 
 这里的“永远不过期”包含两层意思：
 
-   \(1\) 从redis上看，确实没有设置过期时间，这就保证了，不会出现热点key过期问题，也就是“物理”不过期。
+\(1\) 从redis上看，确实没有设置过期时间，这就保证了，不会出现热点key过期问题，也就是“物理”不过期。
 
-   \(2\) 从功能上看，如果不过期，那不就成静态的了吗？所以我们把过期时间存在key对应的value里，如果发现要过期了，通过一个后台的异步线程进行缓存的构建，也就是“逻辑”过期
+\(2\) 从功能上看，如果不过期，那不就成静态的了吗？所以我们把过期时间存在key对应的value里，如果发现要过期了，通过一个后台的异步线程进行缓存的构建，也就是“逻辑”过期
 
-![](/assets/1647a0f0-0df5-3842-b15a-d60bed5379ae.png)
+![](/assets/1647a0f0-0df5-3842-b15a-d60bed5379ae.png)从实战看，这种方法对于性能非常友好，唯一不足的就是构建缓存时候，其余线程\(非构建缓存的线程\)可能访问的是老数据，但是对于一般的互联网功能来说这个还是可以忍受
 
+```
+String get(final String key) {  
+        V v = redis.get(key);  
+        String value = v.getValue();  
+        long timeout = v.getTimeout();  
+        if (v.timeout <= System.currentTimeMillis()) {  
+            // 异步更新后台异常执行  
+            threadPool.execute(new Runnable() {  
+                public void run() {  
+                    String keyMutex = "mutex:" + key;  
+                    if (redis.setnx(keyMutex, "1")) {  
+                        // 3 min timeout to avoid mutex holder crash  
+                        redis.expire(keyMutex, 3 * 60);  
+                        String dbValue = db.get(key);  
+                        redis.set(key, dbValue);  
+                        redis.delete(keyMutex);  
+                    }  
+                }  
+            });  
+        }  
+        return value;  
+    }  
 
+```
+
+（4）.资源保护
+
+可以做资源的隔离保护主线程池，如果把这个应用到缓存的构建也未尝不可
+
+![](/assets/13d90d04-3547-3f2f-80ea-b3ce8ecb06db.png)
 
 **41.是否使用过Redis集群，集群的原理是什么？**
 
