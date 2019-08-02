@@ -1,4 +1,4 @@
-#### 参考地址：
+参考地址：
 
 Redis详细教程：[https://tuonioooo.gitbooks.io/high-concurrent-cache/content/redis.html](https://tuonioooo.gitbooks.io/high-concurrent-cache/content/redis.html)
 
@@ -97,8 +97,6 @@ Redis 的持久化有两种方式，或者说有两种策略：
 > 3. 在主从节点中，RDB作为我们的备份数据，只在salve\(从节点\)上启动，同步时间可以设置的长一点，只留\(save 900 1\)这条规则就可以了。
 > 4. 开启AOF的情况下，主从同步是时候必然会带来IO的性能影响，此时我们可以调大auto-aof-rewrite-min-size的值，比如5GB。来减少IO的频率
 > 5. 不开启AOF的情况下，可以节省IO的性能影响，这是主从间通过RDB持久化同步，但如果主从都挂掉，影响较大~
-
-
 
 **11. Redis 怎么实现分布式锁？**
 
@@ -284,20 +282,16 @@ Redis为单进程单线程模式，采用队列模式将并发访问变为串行
 
 **36.Redis主从模式下宕机怎么办**
 
-### slave宕机
+* slave宕机
 
-  相对简单，slave启动后会自动同步数据，增量同步。
+相对简单，slave启动后会自动同步数据，增量同步。
 
-### master宕机
+* master宕机
 
 **手动恢复**
 
 1. 在从数据库中执行SLAVEOFNO ONE命令，断开主从关系并且将从库提升为主库继续服务；
 2. 将主库重新启动后，执行SLAVEOF命令，将其设置为其他库的从库，这时数据就能更新回来
-
-**哨兵功能自动恢复**   通过sentinel模式启动redis后，自动监控master/slave的运行状态, 已经被集成在redis2.4+的版本中如果Master异常，则会进行Master-Slave切换，将其中一个Slave作为Master，将之前的Master作为Slave **基本原理是**：心跳机制+投票裁决
-
-
 
 
 
