@@ -258,7 +258,17 @@ EXPIRE 和 PERSIST 命令
 
 **33.redis实现简单延时队列**
 
-https://my.oschina.net/u/3266761/blog/1930360
+[https://my.oschina.net/u/3266761/blog/1930360](https://my.oschina.net/u/3266761/blog/1930360)
+
+**34**.**使用 redis 如何设计分布式锁？说一下实现思路？使用 zk 可以吗？如何实现？这两种有什么区别？**
+
+
+
+
+
+
+
+
 
 
 
