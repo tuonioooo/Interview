@@ -430,11 +430,29 @@ Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为m
 
 在Redis中我们可以通过copy的方式在线备份正在运行的Redis数据文件。这是因为RDB文件一旦被生成之后就不会再被修改。Redis每次都是将最新的数据dump到一个临时文件中，之后在利用rename函数原子性的将临时文件改名为原有的数据文件名。因此我们可以说，在任意时刻copy数据文件都是安全的和一致的。鉴于此，我们就可以通过创建cron job的方式定时备份Redis的数据文件，并将备份文件copy到安全的磁盘介质中。
 
-**44.AOF文件介绍，配置以及如何修复AOF文件**
+**44.AOF文件配置以及如何修复AOF文件**
 
 上面已经多次讲过，RDB的快照定时dump机制无法保证很好的数据持久性。如果我们的应用确实非常关注此点，我们可以考虑使用Redis中的AOF机制。对于Redis服务器而言，其缺省的机制是RDB，如果需要使用AOF，则需要修改配置文件中的以下条目：
 
 将_appendonly no_改为_appendonly yes_
 
 从现在起，Redis在每一次接收到数据修改的命令之后，都会将其追加到AOF文件中。在Redis下一次重新启动时，需要加载AOF文件中的信息来构建最新的数据到内存中。
+
+AOF配置：
+
+```
+appendfsync always     #每次有数据修改发生时都会写入AOF文件。
+appendfsync everysec   #每秒钟同步一次，该策略为AOF的缺省策略。
+appendfsync no         #从不同步。高效但是数据不会被持久化。
+```
+
+修复AOF文件方法：
+
+```
+1). 将现有已经坏损的AOF文件额外拷贝出来一份。
+2). 执行"redis-check-aof --fix <filename>"命令来修复坏损的AOF文件。
+3). 用修复后的AOF文件重新启动Redis服务器。
+```
+
+
 
