@@ -6,8 +6,6 @@ Redis相关面试题：
 
 [https://cloud.tencent.com/developer/article/1409260](https://cloud.tencent.com/developer/article/1409260)
 
-[https://segmentfault.com/a/1190000014488045](https://segmentfault.com/a/1190000014488045)
-
 **1**.**Redis 是什么？都有哪些使用场景？**
 
 Redis 是一个使用 C 语言开发的高速缓存数据库。
@@ -256,10 +254,6 @@ EXPIRE 和 PERSIST 命令
 
 缺点**：**在消费者下线的情况下，生产的消息会丢失，得使用专业的消息队列如 rabbitmq 等。
 
-**33.redis实现简单延时队列**
-
-[https://my.oschina.net/u/3266761/blog/1930360](https://my.oschina.net/u/3266761/blog/1930360)
-
 **34**.**使用 redis 如何设计分布式锁？说一下实现思路？使用 zk 可以吗？如何实现？这两种有什么区别？**
 
 **35.Redis的并发竞争问题如何解决?**
@@ -271,6 +265,10 @@ Redis为单进程单线程模式，采用队列模式将并发访问变为串行
 2.服务器角度，利用setnx实现锁。
 
 > 注：对于第一种，需要应用程序自己处理资源的同步，可以使用的方法比较通俗，可以使用synchronized也可以使用lock；第二种需要用到Redis的setnx命令，但是需要注意一些问题。
+
+
+
+
 
 
 
