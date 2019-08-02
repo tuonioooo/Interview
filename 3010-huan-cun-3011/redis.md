@@ -434,27 +434,7 @@ Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为m
 
 上面已经多次讲过，RDB的快照定时dump机制无法保证很好的数据持久性。如果我们的应用确实非常关注此点，我们可以考虑使用Redis中的AOF机制。对于Redis服务器而言，其缺省的机制是RDB，如果需要使用AOF，则需要修改配置文件中的以下条目：
 
-  
-
-
-将
-
-_appendonly no_
-
-改为
-
-_appendonly yes_
-
-  
-
+将_appendonly no_改为_appendonly yes_
 
 从现在起，Redis在每一次接收到数据修改的命令之后，都会将其追加到AOF文件中。在Redis下一次重新启动时，需要加载AOF文件中的信息来构建最新的数据到内存中。
-
-
-
-
-
-
-
-
 
