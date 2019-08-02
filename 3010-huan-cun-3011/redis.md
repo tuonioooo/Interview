@@ -430,35 +430,45 @@ if (v == null) {
 ![](/assets/1647a0f0-0df5-3842-b15a-d60bed5379ae.png)从实战看，这种方法对于性能非常友好，唯一不足的就是构建缓存时候，其余线程\(非构建缓存的线程\)可能访问的是老数据，但是对于一般的互联网功能来说这个还是可以忍受
 
 ```
-String get(final String key) {  
-        V v = redis.get(key);  
-        String value = v.getValue();  
-        long timeout = v.getTimeout();  
-        if (v.timeout <= System.currentTimeMillis()) {  
-            // 异步更新后台异常执行  
-            threadPool.execute(new Runnable() {  
-                public void run() {  
-                    String keyMutex = "mutex:" + key;  
-                    if (redis.setnx(keyMutex, "1")) {  
-                        // 3 min timeout to avoid mutex holder crash  
-                        redis.expire(keyMutex, 3 * 60);  
-                        String dbValue = db.get(key);  
-                        redis.set(key, dbValue);  
-                        redis.delete(keyMutex);  
-                    }  
-                }  
-            });  
-        }  
-        return value;  
-    }  
-
+String get(final String key) {  
+        V v = redis.get(key);  
+        String value = v.getValue();  
+        long timeout = v.getTimeout();  
+        if (v.timeout <= System.currentTimeMillis()) {  
+            // 异步更新后台异常执行  
+            threadPool.execute(new Runnable() {  
+                public void run() {  
+                    String keyMutex = "mutex:" + key;  
+                    if (redis.setnx(keyMutex, "1")) {  
+                        // 3 min timeout to avoid mutex holder crash  
+                        redis.expire(keyMutex, 3 * 60);  
+                        String dbValue = db.get(key);  
+                        redis.set(key, dbValue);  
+                        redis.delete(keyMutex);  
+                    }  
+                }  
+            });  
+        }  
+        return value;  
+    }
 ```
 
 （4）.资源保护
 
 可以做资源的隔离保护主线程池，如果把这个应用到缓存的构建也未尝不可
 
-![](/assets/13d90d04-3547-3f2f-80ea-b3ce8ecb06db.png)
+
+
+方案对比：![](/assets/13d90d04-3547-3f2f-80ea-b3ce8ecb06db.png)
+
+| 解决方案 | 优点 | 缺点 |
+| :--- | :--- | :--- |
+| 简单分布式锁 |  1. 思路简单2. 保证一致性 | 1. 代码复杂度增大2. 存在死锁的风险3. 存在线程池阻塞的风险 |
+| 加另外一个过期时间 | 保证一致性 | 同上 |
+| 不过期 | 异步构建缓存，不会阻塞线程池 | 1. 不保证一致性。2. 代码复杂度增大\(每个value都要维护一个timekey\)。3. 占用一定的内存空间\(每个value都要维护一个timekey\)。 |
+| 资源隔离组件hystrix | 1. hystrix技术成熟，有效保证后端。2. hystrix监控强大。 | 部分访问存在降级策略。 |
+
+
 
 **41.是否使用过Redis集群，集群的原理是什么？**
 
