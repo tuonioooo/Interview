@@ -1,3 +1,5 @@
+RabbitMQ详细教程：https://tuonioooo.gitbooks.io/high-concurrent-queue/content/rabbitmq.html
+
 **1. RabbitMQ 的使用场景有哪些？**
 
 * 抢购活动，削峰填谷，防止系统崩塌。
@@ -113,6 +115,4 @@ vhost：每个 RabbitMQ 都能创建很多 vhost，我们称之为虚拟主机�
 **17. RabbitMQ 对集群节点停止顺序有要求吗？**
 
 RabbitMQ 对集群的停止的顺序是有要求的，应该先关闭内存节点，最后再关闭磁盘节点。如果顺序恰好相反的话，可能会造成消息的丢失。
-
-
 
