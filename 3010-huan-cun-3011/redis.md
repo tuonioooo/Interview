@@ -345,25 +345,25 @@ Redis为单进程单线程模式，采用队列模式将并发访问变为串行
 
 ```
 String get(String key) {
-	 //从redis中获取key 
-	 String value = redis.get(key); 
-	 //如果value为空则开始重构缓存 
-	 if (value == null) { 
-		 //只允许一个线程重构缓存，使用nx，并设置过期时间ex 
-		 String mutexKey = "mutex:key" + key; 
-		 if (redis.set(mutexKey, "1", "ex 180", "nx")) { 
-			 //从数据源获取数据 
-			 value = db.get(key); 
-			 //回写redis并设置过期时间 
-			 redis.set(key, value, timeout); 
-			 //删除mutexKey 
-			 redis.del(mutexKey); 
-		 } else {
-			  //其他线程睡眠50秒再重试 
-			  Thread.sleep(50); get(key); 
-		  } 
-	  } 
-	  return value; 
+     //从redis中获取key 
+     String value = redis.get(key); 
+     //如果value为空则开始重构缓存 
+     if (value == null) { 
+         //只允许一个线程重构缓存，使用nx，并设置过期时间ex 
+         String mutexKey = "mutex:key" + key; 
+         if (redis.set(mutexKey, "1", "ex 180", "nx")) { 
+             //从数据源获取数据 
+             value = db.get(key); 
+             //回写redis并设置过期时间 
+             redis.set(key, value, timeout); 
+             //删除mutexKey 
+             redis.del(mutexKey); 
+         } else {
+              //其他线程睡眠50秒再重试 
+              Thread.sleep(50); get(key); 
+          } 
+      } 
+      return value; 
 }
 ```
 
@@ -381,26 +381,26 @@ String get(String key) {
 
 ```
 String get(final String key) { 
-	V v = redis.get(key); 
-	String value = v.getValue(); 
-	//逻辑过期时间 
-	final Long logicTimeout = v.getLogicTimeout(); 
-	//如果逻辑时间小于当前时间，开始重建缓存 
-	if (logicTimeout <= System.currentTimeMillis()) { 
-		final String mutexKey = "mutex:key" + key; 
-		if (redis.set(mutexKey, "1", "ex 180", "nx")) { 
-		//重建缓存 
-		threadPool.execute(new Runnable() { 
-			@Override 
-			public void run() { 
-				String dbValue = db.get(key); 
-				redis.set(key, (dbValue, newLogicTimeout));
-				redis.del(mutexKey); 
-				} 
-			}); 
-		} 
-	}
-	 return value; 
+    V v = redis.get(key); 
+    String value = v.getValue(); 
+    //逻辑过期时间 
+    final Long logicTimeout = v.getLogicTimeout(); 
+    //如果逻辑时间小于当前时间，开始重建缓存 
+    if (logicTimeout <= System.currentTimeMillis()) { 
+        final String mutexKey = "mutex:key" + key; 
+        if (redis.set(mutexKey, "1", "ex 180", "nx")) { 
+        //重建缓存 
+        threadPool.execute(new Runnable() { 
+            @Override 
+            public void run() { 
+                String dbValue = db.get(key); 
+                redis.set(key, (dbValue, newLogicTimeout));
+                redis.del(mutexKey); 
+                } 
+            }); 
+        } 
+    }
+     return value; 
 }
 ```
 
@@ -410,29 +410,9 @@ String get(final String key) {
 
 ” 永远不过期 “：这种方案由于没有设置真正的过期时间，实际上已经不存在热点 key 产生的一系列危害，但是会存在数据不一致的情况，同时代码复杂度会增大。
 
+**41.是否使用过Redis集群，集群的原理是什么？**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为master，继续提供服务。 Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster进行分片存储。
 
 
 
