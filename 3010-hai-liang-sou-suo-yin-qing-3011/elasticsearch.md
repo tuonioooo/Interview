@@ -43,5 +43,5 @@ Ik\_smart分词器 和 ik\_max\_word 分词器
 
 通常，_ElasticSearch_使用9200-9300的端口范围。因此，要检查它是否在您的服务器上运行，只需键入主页的URL，然后输入端口号。例如：mysitename.com:9200
 
-
+18.
 
