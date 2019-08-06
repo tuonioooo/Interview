@@ -12,6 +12,8 @@ Mysql网络搜集优化面试题：
 
 [https://www.csdn.net/gather\_2c/MtTaEg1sMDYzOC1ibG9n.html](https://www.csdn.net/gather_2c/MtTaEg1sMDYzOC1ibG9n.html)
 
+https://www.jianshu.com/p/486a514b0ded
+
 **1. 数据库的三范式是什么？**
 
 * 第一范式：强调的是列的原子性，即数据库表的每一列都是不可分割的原子数据项。
@@ -160,12 +162,4 @@ hash：虽然可以快速定位，但是没有顺序，IO复杂度高。
 **19.为什么官方建议使用自增长主键作为索引。**
 
 结合B+Tree的特点，自增主键是连续的，在插入过程中尽量减少页分裂，即使要进行页分裂，也只会分裂很少一部分。并且能减少数据的移动，每次插入都是插入到最后。总之就是减少分裂和移动的频率。
-
-
-
-
-
-
-
-
 
