@@ -10,7 +10,7 @@ Mysql网络搜集优化面试题：
 
 [https://www.cnblogs.com/liqiangchn/p/9060521.html](https://www.cnblogs.com/liqiangchn/p/9060521.html)
 
-https://www.csdn.net/gather\_2c/MtTaEg1sMDYzOC1ibG9n.html
+[https://www.csdn.net/gather\_2c/MtTaEg1sMDYzOC1ibG9n.html](https://www.csdn.net/gather_2c/MtTaEg1sMDYzOC1ibG9n.html)
 
 **1. 数据库的三范式是什么？**
 
@@ -129,7 +129,7 @@ MyISAM 只支持表锁，InnoDB 支持表锁和行锁，默认为行锁。
    * 缺点：1.插入删除新的数据记录会破坏B-Tree的性质，因此在插入删除时，需要对树进行一个分裂、合并、转移等操作以保持B-Tree性质。造成IO操作频繁。2.区间查找可能需要返回上层节点重复遍历，IO操作繁琐。
 6. B+Tree: B-Tree的变种
    * 与B-Tree相比，B+Tree有以下不同点：非叶子节点不存储data，只存储索引key；只有叶子节点才存储data
-   * Mysql中B+Tree：在经典B+Tree的基础上进行了优化，增加了顺序访问指针。在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，就形成了带有顺序访问指针的B+Tree。这样就提高了区间访问性能
+   * Mysql中B+Tree：在经典B+Tree的基础上进行了优化，增加了顺序访问指针。在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，就形成了带有顺序访问指针的B+Tree。相比B-Tree来说，进行范围查找时只需要查找两个节点，进行遍历即可。而B-Tree需要获取所有节点，相比之下B+Tree效率更高，这样就提高了区间访问性能。
 
 **17.复合索引形式和用法是如何的？**
 
