@@ -10,6 +10,8 @@ Mysql网络搜集优化面试题：
 
 [https://www.cnblogs.com/liqiangchn/p/9060521.html](https://www.cnblogs.com/liqiangchn/p/9060521.html)
 
+https://www.csdn.net/gather\_2c/MtTaEg1sMDYzOC1ibG9n.html
+
 **1. 数据库的三范式是什么？**
 
 * 第一范式：强调的是列的原子性，即数据库表的每一列都是不可分割的原子数据项。
