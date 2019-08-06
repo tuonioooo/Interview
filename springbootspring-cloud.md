@@ -80,5 +80,5 @@ spring-boot-devtools其深层原理是使用了两个ClassLoader，一个加载�
 
 **11.Spring Cloud Eureka自我保护机制（服务无法剔除）**
 
-https://blog.csdn.net/weixin\_38187317/article/details/81231771
+引用原文：[https://blog.csdn.net/weixin\_38187317/article/details/81231771](https://blog.csdn.net/weixin_38187317/article/details/81231771)
 
