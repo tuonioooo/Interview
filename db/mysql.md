@@ -4,15 +4,11 @@ Mysql优化篇：[https://tuonioooo.gitbooks.io/performance-optimization/content
 
 Mysql网络搜集优化面试题：
 
-[https://blog.csdn.net/qq\_39322743/article/details/79701420](https://blog.csdn.net/qq_39322743/article/details/79701420)
-
 [https://www.jobui.com/mianshiti/it/mysql/](https://www.jobui.com/mianshiti/it/mysql/)
-
-[https://www.cnblogs.com/liqiangchn/p/9060521.html](https://www.cnblogs.com/liqiangchn/p/9060521.html)
 
 [https://www.csdn.net/gather\_2c/MtTaEg1sMDYzOC1ibG9n.html](https://www.csdn.net/gather_2c/MtTaEg1sMDYzOC1ibG9n.html)
 
-https://www.jianshu.com/p/486a514b0ded
+[https://www.jianshu.com/p/486a514b0ded](https://www.jianshu.com/p/486a514b0ded)
 
 **1. 数据库的三范式是什么？**
 
