@@ -6,8 +6,6 @@ JVM相关面试题：
 
 [https://www.cnblogs.com/alsf/p/9398951.html](https://www.cnblogs.com/alsf/p/9398951.html)
 
-[https://blog.csdn.net/chrise\_/article/details/80591821](https://blog.csdn.net/chrise_/article/details/80591821)
-
 类加载器面试题：
 
 [https://zhuanlan.zhihu.com/p/54693308](https://zhuanlan.zhihu.com/p/54693308)
