@@ -8,7 +8,7 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 现代操作系统调度的最小单元是线程，也叫轻量级进程（LightWeight Process），在一个进程里可以创建多个线程，这些线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。处理器在这些线程上高速切换，让使用者感觉到这些线程在同时执行
 
-**2.为什么要使用多线程/线程使用的好处？                                                                                    
+**2.为什么要使用多线程/线程使用的好处？                                                                                      
 **（1）更多的处理器核心
 
 （2）更快的响应时间
@@ -21,10 +21,10 @@ Java线程详解：[https://tuonioooo.gitbooks.io/java-concurrent/content/di-yi-
 
 ![](/assets/1588033-20190428221654326-894392129.png)
 
-**4.启动线程、线程中断？                                                                                    
+**4.启动线程、线程中断？                                                                                      
 **start\(\)方法启动线程、interrupt\(\)
 
-**5.如何安全地终止线程？                                                                                    
+**5.如何安全地终止线程？                                                                                      
 **在中断线程节中提到的中断状态是线程的一个标识位，而中断操作是一种简便的线程间交互方式，而这种交互方式最适合用来取消或停止任务。除了中断以外，还可以利用一个boolean变量来控制是否需要停止任务并终止该线程。在代码清单1所示的例子中，创建了一个线程CountThread，它不断地进行变量累加，而主线程尝试对其进行中断操作和停止操作
 
 ```
@@ -67,7 +67,7 @@ public class Shutdown {
 }
 ```
 
-**6.创建线程有哪几种方式？                                                                             
+**6.创建线程有哪几种方式？                                                                               
 **创建线程有三种方式：
 
 * * 继承
@@ -106,7 +106,7 @@ volatile主要是用来在多线程中同步变量。在一般情况下，为了
 
 synchronized关键字是[Java](http://lib.csdn.net/base/17)利用锁的机制自动实现的，一般有同步方法和同步代码块两种使用方式。Java中所有的对象都自动含有单一的锁\(也称为监视器\)，当在对象上调用其任意的synchronized方法时，此对象被加锁\(一个任务可以多次获得对象的锁，计数会递增\)，同时在线程从该方法返回之前，该对象内其他所有要调用类中被标记为synchronized的方法的线程都会被阻塞。当然针对每个类也有一个锁\(作为类的Class对象的一部分\)，所以你懂的^.^。最后需要注意的是synchronized是同步机制中最安全的一种方式，其他的任何方式都是有风险的，当然付出的代价也是最大的
 
-**9.Java线程等待和通知的相关方法?                                                                    
+**9.Java线程等待和通知的相关方法?                                                                      
 **![](/assets/import-4-2.png)
 
 **10.什么是连接池、线程池，各自的优点？**
@@ -152,10 +152,10 @@ newFixedThreadPool 与 cacheThreadPool 差不多，也是能 reuse 就用，但�
 
 一般来说，CachedTheadPool 在程序执行过程中通常会创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程，因此它是合理的 Executor 的首选，只有当这种方式会引发问题时（比如需要大量长时间面向连接的线程时），才需要考虑用 FixedThreadPool。（该段话摘自《Thinking in Java》第四版）+
 
-**12.Future、FutureTask、CompletionService、CompletableFuture区别?                                                                    
+**12.Future、FutureTask、CompletionService、CompletableFuture区别?                                                                      
 **[https://www.cnblogs.com/dennyzhangdd/p/7010972.html](https://www.cnblogs.com/dennyzhangdd/p/7010972.html)
 
-**13.HashMap实现原理?                                                             
+**13.HashMap实现原理?                                                               
 **[  **hashmap实现原理详解**](https://tuonioooo.gitbooks.io/java-concurrent/content/hashmapshi-xian-yuan-li.html)
 
 **14.为什么要使用ConcurrentHashMap?**
@@ -261,6 +261,23 @@ interrupted\(\) 和 isInterrupted\(\)的主要区别是前者会将中断状态�
 Java.util.concurrent.lock 中的 Lock 框架是锁定的一个抽象，它允许把锁定的实现作为Java 类，而不是作为语言的特性来实现。这就为Lock 的多种实现留下了空间，各种实现可能有不同的调度算法、性能特性或者锁定语义。 ReentrantLock 类实现了Lock ，它拥有与synchronized 相同的并发性和内存语义，但是添加了类似锁投票、定时锁等候和可中断锁等候的一些特性。此外，它还提供了在激烈争用情况下更佳的性能。（换句话说，当许多线程都想访问共享资源时，JVM可以花更少的时候来调度线程，把更多时间用在执行线程上。）
 
 Reentrant 锁意味着什么呢？简单来说，它有一个与锁相关的获取计数器，如果拥有锁的某个线程再次得到锁，那么获取计数器就加1，然后锁需要被释放两次才能获得真正释放。这模仿了synchronized 的语义；如果线程进入由线程已经拥有的监控器保护的synchronized 块，就允许线程继续进行，当线程退出第二个（或者后续）synchronized块的时候，不释放锁，只有线程退出它进入的监控器保护的第一个synchronized 块时，才释放锁
+
+> ReentrantLock类中有很多的方法：
+>
+> * getHoldCount\(\)：当前线程调用 lock\(\) 方法的次数
+> * getQueueLength\(\)：当前正在等待获取 Lock 锁的线程的估计数
+> * getWaitQueueLength\(Condition condition\)：当前正在等待状态的线程的估计数，需要传入 Condition 对象
+> * hasWaiters\(Condition condition\)：查询是否有线程正在等待与 Lock 锁有关的 Condition 条件
+> * hasQueuedThread\(Thread thread\)：查询指定的线程是否正在等待获取 Lock 锁
+> * hasQueuedThreads\(\)：查询是否有线程正在等待获取此锁定
+> * isFair\(\)：判断当前 Lock 锁是不是公平锁
+> * isHeldByCurrentThread\(\)：查询当前线程是否保持此锁定
+> * isLocked\(\)：查询此锁定是否由任意线程保持
+> * tryLock\(\)：线程尝试获取锁，如果获取成功，则返回 true，如果获取失败（即锁已被其他线程获取），则返回 false
+> * tryLock\(long timeout，TimeUnit unit\)：线程如果在指定等待时间内获得了锁，就返回true，否则返回 false
+> * lockInterruptibly\(\)：如果当前线程未被中断，则获取该锁定，如果已经被中断则出现异常
+
+
 
 **29.读写锁可以用于什么应用场景？**
 
@@ -417,6 +434,4 @@ HashMap允许key和value为null，在单线程时，调用contains\(\)和get\(\)
 > 我知道Vector是增删改查方法都加了synchronized，保证同步，但是每个方法执行的时候都要去获得锁，性能就会大大下降，而CopyOnWriteArrayList 只是在增删改上加锁，但是读不加锁，在读方面的性能就好于Vector，CopyOnWriteArrayList支持读多写少的并发情况。
 
 参考：[https://www.jianshu.com/p/c046b7f31228](https://www.jianshu.com/p/c046b7f31228)
-
-
 
