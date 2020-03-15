@@ -48,6 +48,8 @@ vhost：每个 RabbitMQ 都能创建很多 vhost，我们称之为虚拟主机�
 * 把消息持久化磁盘，保证服务器重启消息不丢失。
 * 每个集群中至少有一个物理磁盘，保证消息落入磁盘。
 
+  具体解释参考：[`https://www.cnblogs.com/flyrock/p/8859203.html`](https://www.cnblogs.com/flyrock/p/8859203.html)\`\`
+
 **8. 要保证消息持久化成功的条件有哪些？**
 
 * 声明队列必须设置持久化
