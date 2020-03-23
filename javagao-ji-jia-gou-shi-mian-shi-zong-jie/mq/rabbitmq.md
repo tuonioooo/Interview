@@ -143,5 +143,11 @@ broker 是指一个或多个 erlang node 的逻辑分组，且 node 上运行着
 
 当你在单 node 上声明 queue 时，只要该 node 上相关元数据进行了变更，你就会 得到 Queue.Declare-ok 回应；而在 cluster 上声明 queue ，则要求 cluster 上的全部 node 都要进行元数据成功更新，才会得到 Queue.Declare-ok 回应。另外，若 node 类型 为 RAM node 则变更的数据仅保存在内存中，若类型为 disk node 则还要变更保存在磁盘 上的数据
 
+#### 21. 死信队列的用途？
 
+当消息被 RabbitMQ server 投递到 consumer 后，但 consumer 却通过 Basic.Reject 进行了拒绝时（同时设置 requeue=false），那么该消息会被放入“dead letter”queue 中。 该 queue 可用于排查 message 被 reject 或 undeliver 的原因。
+
+#### 22.routing\_key 和 binding\_key 的最大长度是多少？
+
+255 字节
 
