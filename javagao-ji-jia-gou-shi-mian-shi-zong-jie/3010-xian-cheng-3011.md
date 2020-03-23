@@ -486,7 +486,95 @@ Synchronized 显 然 是 一 个 悲 观 锁 ， 因 为 它 的 并 发 策 略
 
 #### 56. 乐 观 锁 一 定 就 是 好 的 吗 ？
 
+乐 观 锁 避 免 了 悲 观 锁 独 占 对 象 的 现 象 ， 同 时 也 提 高 了 并 发 性 能 ， 但 它 也 有 缺 点
 
+1. 乐 观 锁 只 能 保 证 一 个 共 享 变 量 的 原 子 操 作 。 如 果 多 一 个 或 几 个 变 量 ， 乐 观 锁 将 变 得 力 不 从 心 ， 但 互 斥 锁 能 轻 易 解 决 ， 不 管 对 象 数 量 多 少 及 对 象 颗 粒 度 大 小 。
+2. 长 时 间 自 旋 可 能 导 致 开 销 大 。 假 如 CAS 长 时 间 不 成 功 而 一 直 自 旋 ， 会 给 CPU 带 来 很 大 的 开 销 。 \(**自旋锁不放弃CPU的使用权**\)
+3. ABA 问 题 。 CAS 的 核 心 思 想 是 通 过 比 对 内 存 值 与 预 期 值 是 否 一 样 而 判 断 内 存 值 是 否 被 改 过 ， 但 这 个 判 断 逻 辑 不 严 谨 ， 假 如 内 存 值 原 来 是 A， 后 来 被 一 条 线 程 改 为 B， 最 后 又 被 改 成 了 A， 则 CAS 认 为 此 内 存 值 并 没 有 发 生 改 变 ， 但 实 际 上 是 有 被 其 他 线 程 改 过 的 ， 这 种 情 况 对 依 赖 过 程 值 的 情 景 的 运 算 结 果 影 响 很 大 。 解 决 的 思 路 是 引 入 版 本 号 ， 每 次 变 量 更 新 都 把 版 本 号 加 一 。
 
+#### 57. 那 么 请 谈 谈 AQS 框 架 是 怎 么 回 事 儿 ？
 
+AQS（ AbstractQueuedSynchronizer 类 ） 是 一 个 用 来 构 建 锁 和 同 步 器 的 框 架 ， 各 种 Lock 包 中 的 锁 （ 常 用 的 有 ReentrantLock、 ReadWriteLock） ， 以 及 其 他 如 Semaphore、 CountDownLatch， 甚 至 是 早 期 的 FutureTask 等 ， 都 是 基 于 AQS 来 构 建 。
+
+1. AQS 在 内 部 定 义 了 一 个 volatile int state 变 量 ， 表 示 同 步 状 态 ： 当 线
+
+   程 调 用 lock 方 法 时 ， 如 果 state=0， 说 明 没 有 任 何 线 程 占 有 共 享 资 源
+
+   的 锁 ， 可 以 获 得 锁 并 将 state=1； 如 果 state=1， 则 说 明 有 线 程 目 前 正 在
+
+   使 用 共 享 变 量 ， 其 他 线 程 必 须 加 入 同 步 队 列 进 行 等 待
+
+2. AQS 通 过 Node 内 部 类 构 成 的 一 个 双 向 链 表 结 构 的 同 步 队 列 ， 来 完 成 线 程 获 取 锁 的 排 队 工 作 ， 当 有 线 程 获 取 锁 失 败 后 ， 就 被 添 加 到 队 列 末 尾 。1\) Node 类 是 对 要 访 问 同 步 代 码 的 线 程 的 封 装 ， 包 含 了 线 程 本 身 及 其 状 态 叫 waitStatus（ 有 五 种 不 同 取 值 ， 分 别 表 示 是 否 被 阻 塞 ， 是 否 等 待 唤 醒 ， 是 否 已 经 被 取 消 等 ） ， 每 个 Node 结 点 关 联 其 prev 结 点 和 next 结 点 ， 方 便 线 程 释 放 锁 后 快 速 唤 醒 下 一 个 在 等 待 的 线 程 ， 是 一 个 FIFO 的 过 程 。 2\) Node 类 有 两 个 常 量 ， SHARED 和 EXCLUSIVE， 分 别 代 表 共 享 模 式 和 独 占 模 式 。 所 谓 共 享 模 式 是 一 个 锁 允 许 多 条 线 程 同 时 操 作 （ 信 号 量 Semaphore 就 是 基 于 AQS 的 共 享 模 式 实 现 的 ） ， 独 占 模 式 是 同 一 个 时 间 段 只 能 有 一 个 线 程 对 共 享 资 源 进 行 操 作 ， 多 余 的 请 求 线 程 需 要 排 队 等 待 （ 如 ReentranLock） 。
+3. AQS 通 过 内 部 类 ConditionObject 构 建 等 待 队 列 （ 可 有 多 个 ） ， 当
+
+   Condition 调 用 wait\(\) 方 法 后 ， 线 程 将 会 加 入 等 待 队 列 中 ， 而 当Condition 调 用 signal\(\) 方 法 后 ， 线 程 将 从 等 待 队 列 转 移 动 同 步 队 列 中 进 行 锁 竞 争 。
+
+4. AQS 和 Condition 各 自 维 护 了 不 同 的 队 列 ， 在 使 用 Lock 和 Condition 的 时 候 ， 其 实 就 是 两 个 队 列 的 互 相 移 动 。
+
+#### 58. ReentrantLock 是 如 何 实 现 可 重 入 性 的 ？
+
+ReentrantLock 内 部 自 定 义 了 同 步 器 Sync，其 实 就 是 加 锁 的 时 候 通 过 CAS 算 法 ， 将 线 程 对 象 放 到 一 个 双 向 链 表 中 ， 每 次 获 取 锁 的 时 候 ， 看 下 当 前 维 护 的 那 个 线 程 ID 和 当 前 请 求 的 线 程 ID 是 否 一 样 ， 一 样 就 可 重 入 了 。
+
+#### 59.除 了 ReetrantLock， 你 还 接 触 过 JUC 中 的 哪 些 并 发 工 具 ？
+
+通 常 所 说 的 并 发 包 （ JUC） 也 就 是 java.util.concurrent 及 其 子 包 ， 集 中 了 Java 并 发 的 各 种 基 础 工 具 类 ， 具 体 主 要 包 括 几 个 方 面 ： 
+
+* 提 供 了 CountDownLatch、 CyclicBarrier、 Semaphore 等 ， 比 Synchronized 更 加 高 级 ， 可 以 实 现 更 加 丰 富 多 线 程 操 作 的 同 步 结 构 。 
+* 提 供 了 ConcurrentHashMap、 有 序 的 ConcunrrentSkipListMap， 或 者 通 过 类 似 快 照 机 制 实 现 线 程 安 全 的 动 态 数 组 CopyOnWriteArrayList 等 ， 各 种 线 程 安 全 的 容 器。
+* 提 供 了 ArrayBlockingQueue、 SynchorousQueue 或 针 对 特 定 场 景 的 PriorityBlockingQueue 等 ， 各 种 并 发 队 列 实 现 。
+* 强 大 的 Executor 框 架 ， 可 以 创 建 各 种 不 同 类 型 的 线 程 池 ， 调 度 任 务 运 行 等 。
+
+#### 60. 如 何 让 Java 的 线 程 彼 此 同 步 ？ 你 了 解 过 哪 些 同 步 器 ？ 请 分 别 介 绍 下
+
+JUC 中 的 同 步 器 三 个 主 要 的 成 员 ： CountDownLatch、 CyclicBarrier 和 Semaphore， 通 过 它 们 可 以 方 便 地 实 现 很 多 线 程 之 间 协 作 的 功 能 。 CountDownLatch 叫 倒 计 数 ， 允 许 一 个 或 多 个 线 程 等 待 某 些 操 作 完 成 。 看 几 个 场 景 ：
+
+* 跑 步 比 赛 ， 裁 判 需 要 等 到 所 有 的 运 动 员 （ “ 其 他 线 程 ” ） 都 跑 到 终 点 （ 达 到 目 标 ） ， 才 能 去 算 排 名 和 颁 奖 。 
+* 模 拟 并 发 ， 我 需 要 启 动 100 个 线 程 去 同 时 访 问 某 一 个 地 址 ， 我 希 望 它 们 能 同 时 并 发 ， 而 不 是 一 个 一 个 的 去 执 行
+
+用 法 ： CountDownLatch 构 造 方 法 指 明 计 数 数 量 ， 被 等 待 线 程 调 用 countDown 将 计 数 器 减 1， 等 待 线 程 使 用 await 进 行 线 程 等 待 。 一 个 简 单 的 例 子 ：
+
+![](../.gitbook/assets/image%20%283%29.png)
+
+CyclicBarrier 叫 循 环 栅 栏 ， 它 实 现 让 一 组 线 程 等 待 至 某 个 状 态 之 后 再 全 部 同 时 执 行 ， 而 且 当 所 有 等 待 线 程 被 释 放 后 ， CyclicBarrier 可 以 被 重 复 使 用 。 CyclicBarrier 的 典 型 应 用 场 景 是 用 来 等 待 并 发 线 程 结 束 。 CyclicBarrier 的 主 要 方 法 是 await\(\)， await\(\) 每 被 调 用 一 次 ， 计 数 便 会 减 少 1， 并 阻 塞 住 当 前 线 程 。 当 计 数 减 至 0 时 ， 阻 塞 解 除 ， 所 有 在 此 CyclicBarrier 上 面 阻 塞 的 线 程 开 始 运 行 。 在 这 之 后 ， 如 果 再 次 调 用 await\(\)， 计 数 就 又 会 变 成 N-1， 新 一 轮 重 新 开 始 ， 这 便 是 Cyclic 的 含 义 所 在 。 CyclicBarrier.await\(\) 带 有 返 回 值 ， 用 来 表 示 当 前 线 程 是 第 几 个 到 达 这 个 Barrier 的 线 程
+
+举 例 说 明 如 下 ：
+
+![](../.gitbook/assets/image%20%281%29.png)
+
+Semaphore， Java 版 本 的 信 号 量 实 现 ， 用 于 控 制 同 时 访 问 的 线 程 个 数 ， 来 达 到 限 制 通 用 资 源 访 问 的 目 的 ， 其 原 理 是 通 过 acquire\(\) 获 取 一 个 许 可 ， 如 果 没 有 就 等 待 ， 而 release\(\) 释 放 一 个 许 可 。
+
+![](../.gitbook/assets/image%20%282%29.png)
+
+如 果 Semaphore 的 数 值 被 初 始 化 为 1， 那 么 一 个 线 程 就 可 以 通 过 acquire 进 入 互 斥 状 态 ， 本 质 上 和 互 斥 锁 是 非 常 相 似 的 。 但 是 区 别 也 非 常 明 显 ， 比 如 互 斥 锁 是 有 持 有 者 的 ， 而 对 于 Semaphore 这 种 计 数 器 结 构 ， 虽 然 有 类 似 功 能 ， 但 其 实 不 存 在 真 正 意 义 的 持 有 者 ， 除 非 我 们 进 行 扩 展 包 装 。
+
+#### 61. CyclicBarrier 和 CountDownLatch 看 起 来 很 相 似 ， 请 对 比 下 呢 ？
+
+它 们 的 行 为 有 一 定 相 似 度 ， 区 别 主 要 在 于 ：
+
+* CountDownLatch 是 不 可 以 重 置 的 ， 所 以 无 法 重 用 ， CyclicBarrier 没 有 这 种 限 制 ， 可 以 重 用 。
+*  CountDownLatch 的 基 本 操 作 组 合 是 countDown/await， 调 用 await 的 线 程 阻 塞 等 待 countDown 足 够 的 次 数 ， 不 管 你 是 在 一 个 线程 还 是 多 个 线 程 里 countDown， 只 要 次 数 足 够 即 可 。CyclicBarrier 的 基 本 操 作 组 合 就 是 await， 当 所 有 的 伙 伴 都 调 用 了 await， 才 会 继 续 进 行 任 务 ， 并 自 动 进 行 重 置
+* CountDownLatch 目 的 是 让 一 个 线 程 等 待 其 他 N 个 线 程 达 到 某 个 条 件 后 ， 自 己 再 去 做 某 个 事 （ 通 过 CyclicBarrier 的 第 二 个 构 造 方 法 public CyclicBarrier\(int parties, Runnable barrierAction\)， 在 新 线 程 里 做 事 可 以 达 到 同 样 的 效 果 ） 。 而 CyclicBarrier 的 目 的 是 让 N 多 线 程 互 相 等 待 直 到 所 有 的 都 达 到 某 个 状 态 ， 然 后 这 N 个 线 程 再 继 续 执 行 各 自 后 续 （ 通 过 CountDownLatch 在 某 些 场 合 也 能 完 成 类 似 的 效 果 ） 。
+
+#### 62. Java 中 的 线 程 池 是 如 何 实 现 的 ？
+
+* 在 Java 中 ， 所 谓 的 线 程 池 中 的 “ 线 程 ” ， 其 实 是 被 抽 象 为 了 一 个 静 态 内 部 类 Worker， 它 基 于 AQS 实 现 ， 存 放 在 线 程 池 的 HashSet workers 成 员 变 量 中 ；
+* 而 需 要 执 行 的 任 务 则 存 放 在 成 员 变 量 workQueue （ BlockingQueue workQueue） 中 。 这 样 ， 整 个 线 程 池 实 现 的 基 本 思 想 就 是 ： 从 workQueue 中 不 断 取 出 需 要 执 行 的 任 务 ， 放 在 Workers 中 进 行 处 理。
+
+#### 63. 创 建 线 程 池 的 几 个 核 心 构 造 参 数 ？
+
+Java 中 的 线 程 池 的 创 建 其 实 非 常 灵 活 ， 我 们 可 以 通 过 配 置 不 同 的 参 数 ， 创 建 出 行 为 不 同 的 线 程 池 ， 这 几 个 参 数 包 括 ：
+
+* corePoolSize： 线 程 池 的 核 心 线 程 数 。 
+* maximumPoolSize： 线 程 池 允 许 的 最 大 线 程 数 。 
+* keepAliveTime： 超 过 核 心 线 程 数 时 闲 置 线 程 的 存 活 时 间 。 
+* workQueue： 任 务 执 行 前 保 存 任 务 的 队 列 ， 保 存 由 execute 方 法 提 交 的 Runnable 任 务 。
+
+#### 64. 线 程 池 中 的 线 程 是 怎 么 创 建 的 ？ 是 一 开 始 就 随 着 线 程 池 的 启 动 创 建 好 的 吗 ？
+
+显 然 不 是 的 。 线 程 池 默 认 初 始 化 后 不 启 动 Worker， 等 待 有 请 求 时 才 启 动 。 每 当 我 们 调 用 execute\(\) 方 法 添 加 一 个 任 务 时 ， 线 程 池 会 做 如 下 判 断 ：
+
+* 如 果 正 在 运 行 的 线 程 数 量 小 于 corePoolSize， 那 么 马 上 创 建 线 程 运 行 这 个 任 务 ；
+* 如 果 正 在 运 行 的 线 程 数 量 大 于 或 等 于 corePoolSize， 那 么 将 这 个 任 务 放 入 队 列 ；
+* 如 果 这 时 候 队 列 满 了 ， 而 且 正 在 运 行 的 线 程 数 量 小 于 maximumPoolSize， 那 么 还 是 要 创 建 非 核 心 线 程 立 刻 运 行 这 个 任 务 ；
+* 如 果 队 列 满 了 ， 而 且 正 在 运 行 的 线 程 数 量 大 于 或 等 于 maximumPoolSize， 那 么 线 程 池 会 抛 出 异 常 RejectExecutionException。
 
