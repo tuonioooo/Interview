@@ -439,3 +439,10 @@ HashMap允许key和value为null，在单线程时，调用contains\(\)和get\(\)
 
 参考：[https://www.jianshu.com/p/c046b7f31228](https://www.jianshu.com/p/c046b7f31228)
 
+#### 47. wait 和 sleep 的区别
+
+1. sleep 来自 Thread 类，和 wait 来自 Object 类。 
+2. 最主要是sleep方法没有释放锁，而wait方法释放了 锁，使得其他线程可以使用同步控制块或者方法。
+3.  wait，notify和 notifyAll 只能在同步控制方法或者同步控制块里面使用，而 sleep 可以在任何地方使用\(使 用范围\) 
+4.  sleep 必须捕获异常，而 wait ， notify 和 notifyAll 不需要捕获异常\(1\) sleep 方法属于 Thread 类中方法，表示让一个线程进入睡眠状态，等待一定的时间之后，自动醒来进入到可 运行状态，不会马上进入运行状态，因为线程调度机制恢复线程的运行也需要时间，一个线程对象调用了 sleep 方法之后，并不会释放他所持有的所有对象锁，所以也就不会影响其他进程对象的运行。但在 sleep 的过程中过 程中有可能被其他对象调用它的 interrupt\(\) ,产生 InterruptedException 异常，如果你的程序不捕获这个异 常，线程就会异常终止，进入 TERMINATED 状态，如果你的程序捕获了这个异常，那么程序就会继续执行catch语 句块\(可能还有 finally 语句块\)以及以后的代码。 注意 sleep\(\) 方法是一个静态方法，也就是说他只对当前对象有效，通过 t.sleep\(\) 让t对象进入 sleep ，这样 的做法是错误的，它只会是使当前线程被 sleep 而不是 t 线程 \(2\) wait 属于 Object 的成员方法，一旦一个对象调用了wait方法，必须要采用 notify\(\) 和 notifyAll\(\) 方法 唤醒该进程;如果线程拥有某个或某些对象的同步锁，那么在调用了 wait\(\) 后，这个线程就会释放它持有的所有 同步资源，而不限于这个被调用了 wait\(\) 方法的对象。 wait\(\) 方法也同样会在 wait 的过程中有可能被其他对 象调用 interrupt\(\) 方法而产生 。
+
