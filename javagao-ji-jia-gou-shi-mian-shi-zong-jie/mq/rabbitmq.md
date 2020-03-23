@@ -131,3 +131,17 @@ vhost：每个 RabbitMQ 都能创建很多 vhost，我们称之为虚拟主机�
 
 RabbitMQ 对集群的停止的顺序是有要求的，应该先关闭内存节点，最后再关闭磁盘节点。如果顺序恰好相反的话，可能会造成消息的丢失。
 
+#### 18.RabbitMQ 中的 broker 是指什么？cluster 又是指什么？
+
+broker 是指一个或多个 erlang node 的逻辑分组，且 node 上运行着 RabbitMQ 应用 程序。cluster 是在 broker 的基础之上，增加了 node 之间共享元数据的约束。
+
+#### 19.RabbitMQ 上的一个 queue 中存放的 message 是否有数量限制？
+
+可以认为是无限制，因为限制取决于机器的内存，但是消息过多会导致处理效率的下降.
+
+#### 20.在单 node 系统和多 node 构成的 cluster 系统中声明 queue、exchange ，以及 进行 binding 会有什么不同？
+
+当你在单 node 上声明 queue 时，只要该 node 上相关元数据进行了变更，你就会 得到 Queue.Declare-ok 回应；而在 cluster 上声明 queue ，则要求 cluster 上的全部 node 都要进行元数据成功更新，才会得到 Queue.Declare-ok 回应。另外，若 node 类型 为 RAM node 则变更的数据仅保存在内存中，若类型为 disk node 则还要变更保存在磁盘 上的数据
+
+
+
