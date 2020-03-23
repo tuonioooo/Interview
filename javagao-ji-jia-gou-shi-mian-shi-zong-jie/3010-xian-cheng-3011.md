@@ -414,13 +414,13 @@ synchronized 早期的实现比较低效，对比 ReentrantLock，大多数场�
 
 atomic 主要利用 CAS \(Compare And Wwap\) 和 volatile 和 native 方法来保证原子操作，从而避免 synchronized 的高开销，执行效率大为提升。
 
-**45.为什么Hashmap, ConcurrentHashMap 的 key和value 不能为null（并发角度分析\)**
+**45.为什么HashTable, ConcurrentHashMap 的 key和value 不能为null（并发角度分析\)**
 
 ConcurrentHashmap和Hashtable都是支持并发的，二者规定key，value均不能为null，null的话，会抛出空指针异常。
 
 为什么要这么设计？
 
-当通过get\(k\)获取对应的value时，如果获取到的是null时，无法判断，它是put（k,v）的时候value为null，还是这个key从来没有做过映射。假如线程1调用m.contains（key）返回true，然后在调用m.get\(key\)，这时的m可能已经不同了。因为线程2可能在线程1调用m.contains（key）时，删除了key节点，这样就会导致线程1得到的结果不明确，产生多线程安全问题，因此，Hashmap和ConcurrentHashMap的key和value不能为null。
+当通过get\(k\)获取对应的value时，如果获取到的是null时，无法判断，它是put（k,v）的时候value为null，还是这个key从来没有做过映射。假如线程1调用m.contains（key）返回true，然后在调用m.get\(key\)，这时的m可能已经不同了。因为线程2可能在线程1调用m.contains（key）时，删除了key节点，这样就会导致线程1得到的结果不明确，产生多线程安全问题，因此，**HashTable**和ConcurrentHashMap的key和value不能为null。
 
 HashMap允许key和value为null，在单线程时，调用contains\(\)和get\(\)不会出现问题，但是多线程下，就是线程不安全的。如果要保证线程安全，应该使用ConcurrentHashMap 。
 
