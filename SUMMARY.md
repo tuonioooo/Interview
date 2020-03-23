@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 * [Java高级架构师面试总结](javagao-ji-jia-gou-shi-mian-shi-zong-jie/README.md)
-  * [【基础】20道题](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-ji-chu-3011.md)
+  * [【基础】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-ji-chu-3011.md)
   * [【容器】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-rong-qi-3011.md)
   * [【线程】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-xian-cheng-3011.md)
   * [【反射】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-fan-she-3011.md)
