@@ -612,5 +612,23 @@ Redis 为了达到最快的读写速度将数据都读到内存中，并通过�
 
 原因：mc 多线程模型引入了缓存一致性和锁，加锁带来了性能损耗。
 
+#### 58.假如 Redis 里面有 1 亿个 key，其中有 10w 个 key 是以某个固定的已知的前缀开头的，如 果将它们全部找出来？
 
+使用 keys 指令可以扫出指定模式的 key 列表。
+
+对方接着追问：如果这个 redis 正在给线上的业务提供服务，那使用 keys 指令会有什么问 题？
+
+这个时候你要回答 redis 关键的一个特性：redis 的单线程的。keys 指令会导致线程阻塞一 段时间，线上服务会停顿，直到指令执行完毕，服务才能恢复。这个时候可以使用 scan 指 令，scan 指令可以无阻塞的提取出指定模式的 key 列表，但是会有一定的重复概率，在客 户端做一次去重就可以了，但是整体所花费的时间会比直接用 keys 指令长。
+
+#### 59. Redis 如何实现延时队列
+
+使用 sortedset，使用时间戳做 score, 消息内容作为 key,调用 zadd 来生产消息，消费者 使用 zrangbyscore 获取 n 秒之前的数据做轮询处理。
+
+#### 60. redis 数据库主从不一致问题解决方案
+
+{% embed url="https://blog.csdn.net/john1337/article/details/98850192" %}
+
+#### 61. redis 中 set 和 hset 有什么不同,什么时候使用 hset 什么时候使用set？
+
+[https://www.cnblogs.com/leijiangtao/p/11895552.html](https://www.cnblogs.com/leijiangtao/p/11895552.html)
 
