@@ -25,6 +25,7 @@
   * [【DB】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/db/README.md)
     * [Mysql](javagao-ji-jia-gou-shi-mian-shi-zong-jie/db/mysql.md)
   * [【缓存】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/README.md)
+    * [Memcached](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/memcached.md)
     * [Redis](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/redis.md)
   * [【负载均衡】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-fu-zai-jun-heng-3011.md)
   * [【JVM】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/jvm.md)
