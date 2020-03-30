@@ -96,6 +96,48 @@ spring 有五大隔离级别，默认值为 ISOLATION\_DEFAULT（使用数据库
 
 **幻读** ：指同一个事务内多次查询返回的结果集不一样。比如同一个事务 A 第一次查询时候有 n 条记录，但是第二次同等条件下查询却有 n+1 条记录，这就好像产生了幻觉。发生幻读的原因也是另外一个事务新增或者删除或者修改了第一个事务结果集里面的数据，同一个记录的数据内容被修改了，所有数据行的记录就变多或者变少了。
 
+#### 10-1.Spring事务中哪几种事务传播行为?
+
+支持当前事务的情况: 
+
+* TransactionDefinition.PROPAGATION\_REQUIRED：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
+* TransactionDefinition.PROPAGATION\_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+* TransactionDefinition.PROPAGATION\_MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，则拋出异常。 （mandatory:强制性） 
+
+不支持当前事务的情况: 
+
+* TransactionDefinition.PROPAGATION\_REQUIRES\_NEW：创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+* TransactionDefinition.PROPAGATION\_NOT\_SUPPORTED： 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+* TransactionDefinition.PROPAGATION\_NEVER： 以非事务方式运行，如果当前存在事务，则拋出异常。
+* TransactionDefinition.PROPAGATION\_NESTED：如果当前存在事务，则创建一个事务作为当前 事 务 的 嵌 套 事 务 来 运 行 ； 如 果 当 前 没 有 事 务 ， 则 该 取 值 等 价 于 TransactionDefinition.PROPAGATION\_REQUIRED。
+
+#### 10-2.@Transactional\(rollbackFor = Exception.class\)注解了解吗？
+
+我们知道：Exception分为运行时异常RuntimeException和非运行时异常。事务管理对于企业应用来说 是至关重要的，即使出现异常情况，它也可以保证数据的一致性。 当©Transactional注解作用于类上时，该类的所有public方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。如果类或者方法加了这个注解，那么这个类里面的方法拋出异常，就会回滚，数据库里面的数据也会回滚。 在©Transactional注解中如果不配置rollbackFor属性,那么事物只会在遇到RuntimeException的时 候才会回滚，加上rollbackFor=Exception.class,可以让事物在遇到非运行时异常时也回滚。 关于© Transactional注解推荐阅读的文章：
+
+{% embed url="https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/index.html" %}
+
+#### 10-3.避免 Spring 的 AOP 的自调用问题
+
+在 Spring 的 AOP 代理下，只有目标方法由外部调用，目标方法才由 Spring 生成的代理对象来管理，这会造成自调用问题。若同一类中的其他没有@Transactional 注解的方法内部调用有@Transactional 注解的方法，有@Transactional 注解的方法的事务被忽略，不会发生回滚。见如下代码展示。
+
+```text
+@Service
+public class OrderService {
+    private void insert() {
+        insertOrder();
+    }
+    @Transactional
+    public void insertOrder() {
+        //insert log info
+        //insertOrder
+        //updateAccount
+     }
+}
+```
+
+insertOrder 尽管有@Transactional 注解，但它被内部方法 insert 调用，事务被忽略，出现异常事务不会发生回滚。上面的两个问题@Transactional 注解只应用到 public 方法和自调用问题，是由于使用 Spring AOP 代理造成的。为解决这两个问题，使用 AspectJ 取代 Spring AOP 代理。
+
 #### **11.** BeanFactory 和 ApplicationContext 有什么区别？
 
 BeanFactory 可以理解为含有 bean 集合的工厂类。BeanFactory 包含了种 bean 的定义，以便 在接收到客户端请求时将对应的 bean 实例化。 BeanFactory 还能在实例化对象的时生成协作类之间的关系。此举将 bean 自身与 bean 客户端的 配置中解放出来。BeanFactory 还包含 了 bean 生命周期的控制，调用客户端的初始化方法 （initialization methods）和销毁方法（destruction methods）。 从表面上看，application context 如同 bean factory 一样具有 bean 定义、bean 关联关系的设 置，根据请求分发 bean 的功能。但 applicationcontext 在此基础上还提供了其他的功能，如下：
@@ -362,7 +404,9 @@ IoC源码阅读
 * 模板方法模式：Spring中 jdbcTemplate、hibernateTemplate等以Template结尾的对数据库操作 的类，它们就使用到了模板模式。
 * 包装器设计模式：我们的项目需要连接多个数据库，而且不同的客户在每次访问中根据需要会去访问 不同的数据库。这种模式让我们可以根据客户的需求能够动态切换不同的数据源。 
 * 观察者模式:Spring事件驱动模型就是观察者模式很经典的一个应用。 
-* 适配器模式:Spring AOP的增强或通知（Advice）使用到了适配器模式、spring MVC中也是用到了适 配器模式适配C ontroller。
+* 适配器模式:Spring AOP的增强或通知（Advice）使用到了适配器模式、spring MVC中也是用到了适配器模式适配Controller。
+
+
 
 
 
