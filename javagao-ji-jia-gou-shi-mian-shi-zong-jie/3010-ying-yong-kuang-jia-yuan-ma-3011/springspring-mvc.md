@@ -46,8 +46,11 @@ spring 中的 bean 默认是单例模式，spring 框架并没有对单例 bean 
 
 实际上大部分时候spring bean 无状态的（比如 dao 类），所有某种程度上来说 bean 也是安全的，但如果 bean 有状态的话（比如 view model 对象），那就要开发者自己去保证线程安全了，最简单的就是改变 bean 的作用域，把“singleton”变更为“prototype”，这样请求 bean 相当于 new Bean\(\)了，所以就可以保证线程安全了。
 
-* * 有状态就是有数据存储功能。
-  * 无状态就是不会保存数据。
+常见的有两种解决办法: 
+
+1. 在Bean对象中尽量避免定义可变的成员变量（不太 现实）
+
+2. 在类中定义一个ThreadLocal成员变量，将需要的可变成员变量保存在ThreadLocal中 （推荐的一种方式）。
 
 7**. spring 支持几种 bean 的作用域？**
 
@@ -108,7 +111,7 @@ BeanFactory 可以理解为含有 bean 集合的工厂类。BeanFactory 包含�
 3. XmlWebApplicationContext：由 Web 应用的 XML 文件读取上下文。
 4. AnnotationConfigApplicationContext\(基于 Java 配置启动容器\)
 
-![](../../.gitbook/assets/image%20%282%29.png)
+![](../../.gitbook/assets/image%20%284%29.png)
 
 #### 12.Spring 有几种配置方式？
 
@@ -320,6 +323,50 @@ applicationContext.publishEvent(customEvent);
 5. 将 Bean 实 例 传 递 给 Bean 后 置 处 理 器 的 postProcessAfterInitialization 方法 
 6. Bean 可以使用了 
 7. 当容器关闭时, 调用 Bean 的销毁方法\(destroy-method\)
+
+#### 20.@RestController vs ©Controller
+
+Controller返回一个页面 单独使用©Controller不加@ResponseBody的话一般使用在要返回一个视图的情况，这种情况属于比 较传统的Spring MVC的应用，对应于前后端不分离的情况。
+
+![](../../.gitbook/assets/image%20%289%29.png)
+
+@RestController返回JSON或XML形式数据，但@RestController只返回对象，对象数据直接以JSON或XML形式写入HTTP响应\(Response\)中, 这种情况属于RESTfulWeb服务，这也是目前日常开发所接触的最常用的情况\(前后端分离\)。
+
+![](../../.gitbook/assets/image%20%281%29.png)
+
+©Controller +@ResponseBody 返回JSON 或 XML 形式数据
+
+如 果 你 需 要 在 Spring4之 前 开 发 RESTful Web服 务 的 话 ，你 需 要 使 用 @ControUer并结 合gResponseBody注 解 ,也 就 是 说 ©Controller +@ResponseBodyJ \(aRestController \(Spring 4 之 后新加的注解\)。
+
+> @ResponseBody注解的作用是将Controller的方法返回的对象通过适当的转换器转换为指定的格式之后，写入到HTTP响应\(Response\)对象的body中，通常用来返回JSON或者XML数据，返 回JSON数据的情况比较多。
+
+#### 21.Spring IoC的初始化过程
+
+![](../../.gitbook/assets/image%20%283%29.png)
+
+IoC源码阅读
+
+■ [https://javadoop.com/post/spring-ioc](https://javadoop.com/post/spring-ioc)
+
+#### 22.@Component和 @Bean的区别是什么?
+
+1. 作用对象不同:©Component注解作用于类，@Bean注解作用于方法。 2. 
+2. @Component通常是通斗类路径扫描来自动侦测以及自动装配到Spring容 器 中 （我们可以使用 @ComponentScan注解定义要扫描的路径从中找出标识了需要装配的类自动装配到Spring的bean容 器中）。@Bean注解通常是我们在标有该注解的方法中定义产生这个bean,@Bean告诉了Spring这是 某个类的示例，当我需要用它的时候还给我。 
+3.  @Bean注解比Component注解的自定义性更强，而且很多地方我们只能通过@Bean注解来注册 bean。比如当我们引用第三方库中的类需要装配到Spring容器时，则只能通过@Bean来实现。
+
+#### 23.Spring框架中用到了哪些设计模式？
+
+* 工厂设计模式:Spring使用工厂模式通过BeanFactory、A pplicationcontext创建bean对象。 
+* 代理设计模式：Spring AOP功能的实现。 
+* 单例设计模式：Spring中的Bean默认都是单例的。 
+* 模板方法模式：Spring中 jdbcTemplate、hibernateTemplate等以Template结尾的对数据库操作 的类，它们就使用到了模板模式。
+* 包装器设计模式：我们的项目需要连接多个数据库，而且不同的客户在每次访问中根据需要会去访问 不同的数据库。这种模式让我们可以根据客户的需求能够动态切换不同的数据源。 
+* 观察者模式:Spring事件驱动模型就是观察者模式很经典的一个应用。 
+* 适配器模式:Spring AOP的增强或通知（Advice）使用到了适配器模式、spring MVC中也是用到了适 配器模式适配C ontroller。
+
+
+
+
 
 
 
