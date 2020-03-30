@@ -4,7 +4,8 @@
 
 **1. MyBatis 中 \#{}和 ${}的区别是什么？**
 
-\#{}是预编译处理，${}是字符替换。在使用 \#{}时，MyBatis 会将 SQL 中的\#{}替换成“?”，配合 PreparedStatement 的 set 方法赋值，这样可以有效的防止 SQL 注入，保证程序的运行安全。
+* \#{}是预编译处理，在使用 \#{}时，MyBatis 会将 SQL 中的\#{}替换成“?”，配合 PreparedStatement 的 set 方法赋值，这样可以有效的防止 SQL 注入，保证程序的运行安全。
+* ${}是字符替换。${}是 Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比 如 ${driver}会被静态替换为 com.mysql.jdbc.Driver
 
 **2. MyBatis 有几种分页方式？**
 
@@ -31,7 +32,7 @@ Fetch Size 官方相关文档：http://t. cn/EfSE2g3
 
 **5. MyBatis 是否支持延迟加载？延迟加载的原理是什么？**
 
-MyBatis 支持延迟加载，设置 lazyLoadingEnabled=true 即可。
+Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是 一对一，collection指的就是一对多查询。在 Mybatis配置文件中，可以配置是否启用延迟加载 lazyLoadingEnabled=true\|false 。
 
 延迟加载的原理是调用的时候触发加载，而不是在初始化的时候就加载信息。比如调用a. getB\(\). getName\(\)，这个时候发现 a. getB\(\) 的值为 null，此时会单独触发事先保存好的关联 B 对象的 SQL，先查询出来 B，然后再调用 a. setB\(b\)，而这时候再调用 a. getB\(\). getName\(\) 就有值了，这就是延迟加载的基本原理。
 
@@ -127,4 +128,56 @@ public interface Interceptor {
    }
 }
 ```
+
+#### **11.**Mybatis执行批量插入，能返回数据库主键列表吗? 
+
+答 ：能，JDBC都能，Mybatis当然也能。
+
+#### 12.Mybatis动态sql是做什么的？都有哪些动态sq l?能简述一下动态 sql的执行原理不？
+
+答 ：Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql,完成逻辑判断和动态拼接sql 的功 能 ，Mybatis提供了9种动态sql标 签 trim \|where\|set\|foreach\|if\|c h o o se \|w h e n \|o th e rw ise \|b in d o 其执行原理为，使用OGNL从 sql参数对象中计算表达式的值，根据表达式的值动态拼接s q l,以此来 完成动态sql的功能。
+
+#### 13.Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些 映射形式？
+
+答：第一种是使用＜resultMap＞标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用sql 列的别名功能，将列别名书写为对象属性名，比如T\_NAMEASNAME,对象属性名一般是nam e,小 写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以 写成T\_NAME AS NaMe, Mybatis —样可以正常工作。
+
+#### **14.**Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+
+答：不同的Xm l映射文件，如果配置了 namespace,那么id 可以重复；如果没有配置namespace, 那 么id 不能重复；毕竟namespace不是必须的，只是最佳实践而已。 原 因 就 是 namespace+id是 作 为 Map的 k e y 使 用 的 ，如果没有 namespace, 就剩下i d ,那么，id 重复会导致数据互相覆盖。有了 namespace, 自然id 就可以重复， namespace不同，namespace+id自然也就不同。
+
+#### 15.Mybatis中如何执行批处理？
+
+使用BatchExecutor完成批处理。
+
+#### 16.Mybatis中如何指定使用哪一种Executor执行器? 
+
+ 答 ：在 Mybatis配 置 文 件 中 ，可 以 指 定 默 认 的 ExecutorType执行器
+
+#### 17.Mybatis是否可以映射Enum枚举类？
+
+Mybatis可以映射枚举类，不单可以映射枚举类，Mybatis可以映射任何对象到表的一列上。映射 方式为自定义一个 TypeHandler, 实现 TypeHandler 的 setParameter\(\)和 getResult\(\)接口方法。TypeHandler有两个作用，一是完成从javalype至 jdbciype的转换，二是完成jdbcType至 javaType的转换，体现为setParameter\(\)和 getR esult\(\)两个方法，分别代表设置sq l问号占位符参数和获取列查询结果。
+
+#### 18.Mybatis映射文件中，如果A 标签通过include引用了 B 标签的内 容，请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的 前面？
+
+虽然Mybatis解析Xml映射文件是按照顺序解析的，但是，被引用的B标签依然可以定义在任何 地方，Mybatis都可以正确识别。 原理是，Mybatis解析A 标签，发现A 标签引用了 B 标签，但是B 标签尚未解析到，尚不存在，此 时，Mybatis会将A 标签标记为未解析状态，然后继续解析余下的标签，包含B标签，待所有标签解析 完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A 标签时，B标签已经存在，A 标 签也就可以正常解析完成了。
+
+#### 19.简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
+
+Mybatis将所有Xm l配置信息都封装到All-In-One重量级对象Configuration内部。在 Xm l映射 文 件 中 ，&lt;parameterMap&gt;标 签 会 被 解 析 为 ParameterMap对 象 ，其 每 个 子 元 素 会 被 解 析 为 ParameterMapping对象。&lt;resultMap&gt;标签会被解析为ResultMap对象，其每个子元素会被解析为 ResultM apping 对 象 。每一个 &lt; select&gt; 、&lt; insert&gt; 、&lt;update&gt;、 &lt; delete&gt; 标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
+
+#### 20.为什么说Mybatis是半自动映射工具，它与全自动的区别在哪里？
+
+Hibernate属于全自动QRM 映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以 根据对象关系模型直接获取，所以它是全自动的。而 Mybatis在查询关联对象或关联集合对象时，需要 手动编写sql来完成，所以，称之为半自动ORM映射工具。 面试题看似都很简单，但是想要能正确回答上来，必定是研究过源码且深入的人，而不是仅会使用的人 或者用的很熟的人，以上所有面试题及其答案所涉及的内容，在我的Mybatis系列博客中都有详细讲解 和原理分析。
+
+
+
+
+
+
+
+
+
+
+
+
 
