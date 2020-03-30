@@ -1,2 +1,2 @@
-# Spring Cloud
+# SpringCloud
 
