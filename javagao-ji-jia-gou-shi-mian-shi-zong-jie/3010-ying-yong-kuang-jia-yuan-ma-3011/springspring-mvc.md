@@ -2,8 +2,6 @@
 
 [Spring源码解读](https://app.gitbook.com/@tuonioooo-notebook/s/application-framework/springyuan-ma-jie-du-pian)
 
-[Spring MVC源码解读](https://tuonioooo.gitbooks.io/application-framework/content/springyuan-ma-jie-du-pian/springmvcyuan-ma-jie-du.html)
-
 相关面试总结：[https://www.cnblogs.com/tangjian07/p/10802148.html](https://www.cnblogs.com/tangjian07/p/10802148.html)
 
 1**. 为什么要使用 spring？**
