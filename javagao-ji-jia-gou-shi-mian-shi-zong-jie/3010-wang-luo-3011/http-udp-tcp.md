@@ -12,9 +12,9 @@
 
 forward 是转发，而 redirect 是重定向，它们的区别如下：
 
-* * 地址栏 url 显示：foward url 不会发生改变，redirect url 会发生改变；
-  * 数据共享：forward 可以共享 request 里的数据，redirect 不能共享；
-  * 效率：forward 比 redirect 效率高。
+* 地址栏 url 显示：foward url 不会发生改变，redirect url 会发生改变；
+* 数据共享：forward 可以共享 request 里的数据，redirect 不能共享；
+* 效率：forward 比 redirect 效率高。
 
 **3. 简述 tcp 和 udp的区别？**
 
@@ -37,8 +37,8 @@ tcp 和 udp 是 OSI 模型中的运输层中的协议。tcp 提供可靠的通�
 
 tcp 粘包可能发生在发送端或者接收端，分别来看两端各种产生粘包的原因：
 
-* * 发送端粘包：发送端需要等缓冲区满才发送出去，造成粘包；
-  * 接收方粘包：接收方不及时接收缓冲区的包，造成多个包接收。
+* 发送端粘包：发送端需要等缓冲区满才发送出去，造成粘包；
+* 接收方粘包：接收方不及时接收缓冲区的包，造成多个包接收。
 
 **6. OSI 的七层模型都有哪些？**
 
@@ -64,9 +64,9 @@ tcp 粘包可能发生在发送端或者接收端，分别来看两端各种产�
 
 实现跨域有以下几种方案：
 
-* * 服务器端运行跨域 设置 CORS 等于 \*；
-  * 在单个接口使用注解 @CrossOrigin 运行跨域；
-  * 使用 jsonp 跨域；
+* 服务器端运行跨域 设置 CORS 等于 \*；
+* 在单个接口使用注解 @CrossOrigin 运行跨域；
+* 使用 jsonp 跨域；
 
 **9. 说一下 JSONP 实现原理？**
 
@@ -78,5 +78,9 @@ jsonp：JSON with Padding，它是利用script标签的 src 连接可以访问�
 
 **11.应用层HTTP协议详解**
 
-[https://blog.csdn.net/weixin\_43214609/article/details/89281064](https://github.com/tuonioooo/interview/tree/77c12ab78157cc712dbff09255090013a74088bc/7.应用层HTTP协议%20https:/blog.csdn.net/weixin_43214609/article/details/89281064/README.md)
+{% embed url="https://blog.csdn.net/weixin\_43214609/article/details/89281064" %}
+
+
+
+
 

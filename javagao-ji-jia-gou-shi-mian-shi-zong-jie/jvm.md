@@ -169,7 +169,7 @@ JDK 自带了很多监控工具，都位于 JDK 的 bin 目录下，其中最常
 
 堆空间的基本结构
 
-![](../.gitbook/assets/image%20%2811%29.png)
+![](../.gitbook/assets/image%20%2812%29.png)
 
 上图所示的eden区、sO区、si区都属于新生驾，tentired区属于老年代。大部分情况，对象都会首先在 Eden区域分配，在一次新生代垃圾回收啟加果对象还存活，则会进入sO或者s i , 并且对象的年龄还 会加l（Eden区-&gt;Survivor区后对象的初始年龄变为1）, 当它的年龄增加到一定程度（默认为15岁），就 会被晋升到老年代中。对象晋升到老年代的年龄阈值，可以通过参数-XX:MaxTenuringThreshold来 设置。
 

@@ -368,7 +368,7 @@ applicationContext.publishEvent(customEvent);
 
 Controller返回一个页面 单独使用©Controller不加@ResponseBody的话一般使用在要返回一个视图的情况，这种情况属于比 较传统的Spring MVC的应用，对应于前后端不分离的情况。
 
-![](../../.gitbook/assets/image%20%289%29.png)
+![](../../.gitbook/assets/image%20%2810%29.png)
 
 @RestController返回JSON或XML形式数据，但@RestController只返回对象，对象数据直接以JSON或XML形式写入HTTP响应\(Response\)中, 这种情况属于RESTfulWeb服务，这也是目前日常开发所接触的最常用的情况\(前后端分离\)。
 
