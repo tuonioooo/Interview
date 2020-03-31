@@ -1,5 +1,9 @@
 # HTTP、UDP、TCP
 
+#### 面试**参考第三部分计算机网络：**
+
+链接: [https://pan.baidu.com/s/1uPta62Mxib1I8\_89WHepZg](https://pan.baidu.com/s/1uPta62Mxib1I8_89WHepZg) 提取码: 6dpp 
+
 **1. http 响应码 301 和 302 代表的是什么？有什么区别？**
 
 301：永久重定向。
