@@ -162,6 +162,8 @@ newFixedThreadPool 与 cacheThreadPool 差不多，也是能 reuse 就用，但�
 **13.HashMap实现原理?**    
 [ **hashmap实现原理详解**](https://tuonioooo.gitbooks.io/java-concurrent/content/hashmapshi-xian-yuan-li.html)
 
+**hashmap链表采用的是头插入方法**
+
 **14.为什么要使用ConcurrentHashMap?**
 
 [**参考答案**](https://tuonioooo.gitbooks.io/java-concurrent/content/concurrenthashmapde-shi-xian-yuan-li-yu-shi-yong/wei-shi-yao-yao-shi-yong-concurrenthashmap.html)
