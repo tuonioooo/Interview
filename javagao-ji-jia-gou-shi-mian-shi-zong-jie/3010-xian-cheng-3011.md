@@ -420,7 +420,7 @@ synchronized 早期的实现比较低效，对比 ReentrantLock，大多数场�
 
 **44. 说一下 atomic 的原理**
 
-atomic 主要利用 CAS \(Compare And Wwap\) 和 volatile 和 native 方法来保证原子操作，从而避免 synchronized 的高开销，执行效率大为提升。
+atomic 主要利用 CAS \(Compare And Swap\) 和 volatile 和 native 方法来保证原子操作，从而避免 synchronized 的高开销，执行效率大为提升。
 
 **45.为什么HashTable, ConcurrentHashMap 的 key和value 不能为null（并发角度分析\)**
 
