@@ -404,6 +404,10 @@ IoC源码阅读
 * 观察者模式:Spring事件驱动模型就是观察者模式很经典的一个应用。 
 * 适配器模式:Spring AOP的增强或通知（Advice）使用到了适配器模式、spring MVC中也是用到了适配器模式适配Controller。
 
+#### 24.final方法在Spring AOP中的注意事项
+
+Spring AOP默认使用cglib会生成目标对象的子类，然后调用set时会直接设置被代理对象的data，所以造成了target的data没有设置。 当你调用get方法时因为是final 所以没有被代理 直接调用的是目标对象的，所以是null.
+
 
 
 
