@@ -1,4 +1,4 @@
-# 【dubbo-12】
+# 【dubbo】
 
 dubbo官网及应用讲解：
 

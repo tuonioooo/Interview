@@ -1,4 +1,4 @@
-# 【线程-3】
+# 【线程】
 
 相关面试总结：[https://www.cnblogs.com/tangjian07/p/10780692.html](https://www.cnblogs.com/tangjian07/p/10780692.html)
 
