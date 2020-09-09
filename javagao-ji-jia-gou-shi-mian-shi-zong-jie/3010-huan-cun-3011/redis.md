@@ -68,13 +68,13 @@ Redis 支持的数据类型：string（字符串）、list（列表）、hash（
 
 **String** 
 
-> 常用命令:setzgetzdecrzincr,mget 等。
+> 常用命令:set、zget、zdecr、zincr、mget 等。
 
 String数据结构是简单的key-value类型，value其实不仅可以是String, 也可以是数字。 常规key-value 缓存应用；常规计数：微博数，粉丝数等。
 
  **Hash**
 
-> 常用命令：hgetzhsetzhgetall 等。
+> 常用命令：hget、zhset、zhget、all 等。
 
 hash是一个string类型的field和 value的映射表，hash特别适合用于存储对象，后续操作的时候，你 可以直接仅仅修改这个对象中的某个字段的值。 比如我们可以hash数据结构来存储用户信息，商品信 息等等。比如下面我就用hash类型存放了我本人的一些信息：
 
@@ -84,7 +84,7 @@ key=Javalise r293847 value={ " id " : 1, "name": "S n ailC lim b", “ age〃：
 
  **List**
 
-> 常用命令:lpushzrpush,lpop,rpop,lrange等
+> 常用命令:lpush、zrpush、lpop、rpop、lrange等
 
 list就是链表，Redis list的应用场景非常多，也是Redis最重要的数据结构之一，比如微博的关注列表, 粉丝列表，消息列表等功能都可以用Redis的 list结构来实现。 Redis list的实现为一个双向链表、即可以支持反向查找和遍历，更方便操作，不过带来了部分额外的内 存开销。 另外可以通过lrange命令，就是从某个元素开始读取多少个元素，可以基于list实现分页查询，这个很 棒的一个功能，基于redis实现简单的高性能分页，可以做类似微博那种下拉不断分页的东西（一页一 页的往下走），性能高。
 
