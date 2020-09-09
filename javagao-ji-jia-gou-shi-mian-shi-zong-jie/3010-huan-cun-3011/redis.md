@@ -264,7 +264,7 @@ exec        #执行事务的commands队列
 discard        #结束事务，并清除commands队列
 ```
 
-roolback和discard的区别：
+rollback和discard的区别：
 
 如果已经成功执行了2条语句，第3条语句出错。roolback后撤销前面2条语句的照成的影响；discard只是结束本次事务，前面2条语句造成的影响仍然存在。
 
