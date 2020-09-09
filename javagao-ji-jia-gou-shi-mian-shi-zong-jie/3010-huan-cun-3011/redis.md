@@ -104,10 +104,6 @@ sinterstore keyl key2 key3 将交集存在keyl内
 
 和set相比，sorted set增加了一个权重参数score,使得集合中的元素能够按score进行有序排列。 举例：在直播系统中，实时排行信息包含直播间在线用户列表，各种礼物排行榜，弹幕消息（可以理解 为按消息维度的消息排行榜）等信息，适合使用Redis中的Sorted Set结构进行存储
 
-
-
-
-
 **7. Redis 支持的 Java 客户端都有哪些？**
 
 支持的Java 客户端有 Redisson、jedis、lettuce 等。
