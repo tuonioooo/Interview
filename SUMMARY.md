@@ -32,7 +32,7 @@
     * [Memcached](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/memcached.md)
     * [Redis—01](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/redis.md)
     * [Redis—02](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/redis-02.md)
-    * [Redis-03](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/redis-03.md)
+    * [Redis—03](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-huan-cun-3011/redis-03.md)
   * [【负载均衡-16】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-fu-zai-jun-heng-3011.md)
   * [【JVM-17】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/jvm.md)
   * [【海量搜索引擎-18】](javagao-ji-jia-gou-shi-mian-shi-zong-jie/3010-hai-liang-sou-suo-yin-qing-3011/README.md)
