@@ -1,8 +1,8 @@
-# 【设计模式】
+# 【设计模式-9】
 
 ## 参考教程
 
-## 设计模式详解：[https://tuonioooo.gitbooks.io/application-framework/content/she-ji-mo-shi-pian.html](https://tuonioooo.gitbooks.io/application-framework/content/she-ji-mo-shi-pian.html)
+## 设计模式详解：[https://tuonioooo-notebook.gitbook.io/application-framework/she-ji-mo-shi-pian](https://tuonioooo-notebook.gitbook.io/application-framework/she-ji-mo-shi-pian)
 
 **1. 说一下你熟悉的设计模式？**
 
