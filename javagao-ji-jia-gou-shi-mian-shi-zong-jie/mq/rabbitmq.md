@@ -2,6 +2,8 @@
 
 RabbitMQ详细教程：[https://tuonioooo.gitbooks.io/high-concurrent-queue/content/rabbitmq.html](https://tuonioooo.gitbooks.io/high-concurrent-queue/content/rabbitmq.html)
 
+RabbitMQ中文文档：[http://rabbitmq.mr-ping.com](http://rabbitmq.mr-ping.com/)
+
 **1. RabbitMQ 的使用场景有哪些？**
 
 * 抢购活动，削峰填谷，防止系统崩塌。
@@ -150,4 +152,22 @@ broker 是指一个或多个 erlang node 的逻辑分组，且 node 上运行着
 #### 22.routing\_key 和 binding\_key 的最大长度是多少？
 
 255 字节
+
+#### 23.redis的队列和rabbitmq队列有什么区别？
+
+* 消息持久化
+
+mq可以持久化队列和消息，而redis是整个内存持久化
+
+* 消息可靠性
+
+mq消息消费失败具有重试机制，手动确认应答机制，redis消费失败没有相关机制
+
+* 消息消费规则
+
+mq可以指定某个消费者消费，而redis被所有消费者消费
+
+* 可视化界面
+
+mq具有可视化界面，可查看路由规则，队列，消息，redis不具备
 
