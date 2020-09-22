@@ -52,6 +52,7 @@ spring:
 * 使用 devtools  启动热部署，添加 devtools 库，在配置文件中把 spring.devtools.restart.enabled 设置为 true。
 * 使用 Intellij IDE 编辑器，勾上自动编译或者手动重新编译。
 * jrebel
+* Spring Loaded jar包
 
 > ## SpringBoot热部署原理 <a id="articleContentId"></a>
 >
@@ -101,6 +102,44 @@ Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方�
 #### 15.什么是 CSRF 攻击？ 
 
 CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的 Web 应用 程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击 者无法查看对伪造请求的响应
+
+#### 16.什么是YAML？
+
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
+
+与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
+
+#### 17.运行Spring Boot有哪几种方式？
+
+1）打包用命令或者放到容器中运行
+
+2）用Maven/Gradle插件运行
+
+3）直接执行main方法运行
+
+#### 18.开启Spring Boot特性有哪几种方式？
+
+1）继承spring-boot-starter-parent项目
+
+2）导入spring-boot-dependencies项目依赖
+
+#### 19.为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+
+我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
+
+通过 Spring Data REST 你可以把你的数据实体作为 RESTful 服务直接发布。
+
+当你设计 RESTful 服务器的时候，最佳实践表明，你的接口应该考虑到两件重要的事情：
+
+你的模型范围。
+
+你的客户。
+
+通过 With Spring Data REST，你不需要再考虑这两个方面，只需要作为 TEST 服务发布实体。
+
+
+
+
 
 
 
